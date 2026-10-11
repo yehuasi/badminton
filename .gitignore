@@ -1,0 +1,24 @@
+# 虚拟环境
+.venv/
+venv/
+
+# Python 缓存
+__pycache__/
+*.py[cod]
+
+# IDE
+.idea/
+.vscode/
+
+# 运行产物
+*.log
+*.pt
+*.onnx
+
+# 数据与模型产物（数据集较大且可重新生成/下载）
+data/
+models/
+
+# 本地运行产物
+replay/
+configs/

@@ -1,0 +1,6 @@
+# SC171 v3（aarch64 Linux, Python 3.8）端侧依赖，均有 aarch64 wheel。
+numpy>=1.21
+opencv-python-headless>=4.8
+onnxruntime>=1.18
+fastapi>=0.110
+uvicorn>=0.29

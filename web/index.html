@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>羽毛球动作分析演示</title>
+<style>
+body{font-family:system-ui,sans-serif;background:#111;color:#eee;margin:0;padding:16px}
+.wrap{display:flex;gap:16px;flex-wrap:wrap}
+.video{flex:1 1 520px;min-width:320px;background:#000;border-radius:8px;overflow:hidden}
+.video img{width:100%;display:block}
+.panel{flex:0 0 360px;background:#1c1c1c;border-radius:8px;padding:16px}
+.tabs{display:flex;gap:8px;margin-bottom:12px}
+.tabs button{flex:1;padding:8px;background:#2a2a2a;color:#ddd;border:0;border-radius:6px;cursor:pointer}
+.tabs button.on{background:#5fd;color:#111;font-weight:bold}
+.row{margin:8px 0;font-size:15px}
+.tag{color:#8ab;margin-right:8px}
+.big{font-size:26px;color:#5fd}
+.advice{margin-top:12px;padding:10px;background:#222;border-radius:6px;line-height:1.7}
+.advice div::before{content:"\2022 ";color:#5fd}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+th,td{padding:5px 4px;border-bottom:1px solid #333;text-align:left}
+#trend{width:100%;background:#141414;border-radius:6px;margin:4px 0}
+#repImg{width:100%;border-radius:6px;background:#000;min-height:120px;display:block}
+.ctl{display:flex;gap:6px;align-items:center;margin:8px 0}
+.ctl button{width:34px;height:30px;background:#2a2a2a;color:#eee;border:0;border-radius:6px;cursor:pointer}
+.ctl input[type=range]{flex:1}
+</style>
+</head>
+<body>
+<h2>羽毛球动作分析演示</h2>
+<div class="wrap">
+  <div class="video"><img src="/video_feed"></div>
+  <div class="panel">
+    <div class="tabs">
+      <button id="tabLive" class="on" onclick="switchTab('live')">实时</button>
+      <button id="tabReplay" onclick="switchTab('replay')">回看</button>
+      <button id="tabFuse" onclick="switchTab('fuse')">融合</button>
+      <button id="tabReport" onclick="switchTab('report')">报告</button>
+    </div>
+    <div id="livePanel">
+      <div class="row"><span class="tag">识别动作</span><span class="big" id="shot">-</span></div>
+      <div class="row"><span class="tag">置信度</span><span id="conf">-</span></div>
+      <div class="row"><span class="tag">综合得分</span><span class="big" id="total">-</span></div>
+      <div class="row"><span class="tag">标准度(50%)</span><span id="std">-</span></div>
+      <div class="row"><span class="tag">动作识别(10%)</span><span id="act">-</span></div>
+      <div class="row"><span class="tag">连贯性(15%)</span><span id="coh">-</span></div>
+      <div class="row"><span class="tag">步伐(25%)</span><span id="foot">-</span></div>
+      <div class="row"><span class="tag">帧率</span><span id="fps">-</span></div>
+      <div class="advice" id="advice"></div>
+    </div>
+    <div id="replayPanel" style="display:none">
+      <div class="row"><span class="tag">回看帧</span><span id="repInfo">-</span></div>
+      <canvas id="trend" width="320" height="80"></canvas>
+      <div class="ctl">
+        <button onclick="stepFrame(-1)">◀</button>
+        <input type="range" id="repSlider" min="0" max="0" value="0" oninput="showFrame(parseInt(this.value,10))">
+        <button onclick="stepFrame(1)">▶</button>
+      </div>
+      <img id="repImg" alt="回看帧">
+    </div>
+    <div id="fusePanel" style="display:none">
+      <div class="row"><span class="tag">双视角融合</span></div>
+      <div class="row"><span class="tag">当前这一拍</span><span id="curStroke">-</span></div>
+      <img id="curStrokeImg" style="width:100%;border-radius:6px;background:#000;min-height:80px;display:none" alt="当前这一拍">
+      <div class="ctl">
+        <button style="flex:1;width:auto" onclick="captureView('front')">记录正面</button>
+        <button style="flex:1;width:auto" onclick="captureView('side')">记录侧面</button>
+        <button style="flex:1;width:auto" onclick="resetViews()">清除</button>
+      </div>
+      <div id="fuseInfo" style="font-size:13px;line-height:1.8"></div>
+    </div>
+    <div id="reportPanel" style="display:none">
+      <div class="row"><span class="tag">分析条数</span><span id="recCount">-</span></div>
+      <div id="summary"></div>
+    </div>
+  </div>
+</div>
+<script>
+let view='live';
+let replayFrames=[];
+let replayIdx=0;
+function switchTab(v){
+  view=v;
+  document.getElementById('tabLive').classList.toggle('on',v==='live');
+  document.getElementById('tabReplay').classList.toggle('on',v==='replay');
+  document.getElementById('tabFuse').classList.toggle('on',v==='fuse');
+  document.getElementById('tabReport').classList.toggle('on',v==='report');
+  document.getElementById('livePanel').style.display=v==='live'?'block':'none';
+  document.getElementById('replayPanel').style.display=v==='replay'?'block':'none';
+  document.getElementById('fusePanel').style.display=v==='fuse'?'block':'none';
+  document.getElementById('reportPanel').style.display=v==='report'?'block':'none';
+  if(v==='replay') pollReplay();
+  if(v==='fuse') pollFuse();
+}
+async function poll(){
+  try{
+    const r=await fetch('/api/status'); const d=await r.json();
+    document.getElementById('shot').textContent=d.shot_type||'无有效动作';
+    document.getElementById('conf').textContent=d.confidence? (d.confidence*100).toFixed(1)+'%' : '-';
+    document.getElementById('total').textContent=(d.total==null)?'-':d.total;
+    document.getElementById('std').textContent=(d.standardness==null)?'-':d.standardness;
+    document.getElementById('act').textContent=(d.action_score==null)?'-':d.action_score;
+    document.getElementById('coh').textContent=(d.coherence==null)?'-':d.coherence;
+    document.getElementById('foot').textContent=(d.footwork==null)?'-':d.footwork;
+    document.getElementById('fps').textContent=d.fps? d.fps+' fps':'-';
+    const a=document.getElementById('advice'); a.innerHTML='';
+    (d.advice||[]).forEach(s=>{const div=document.createElement('div');div.textContent=s;a.appendChild(div);});
+  }catch(e){}
+}
+async function pollReplay(){
+  if(view!=='replay') return;
+  try{
+    const r=await fetch('/api/replay'); const d=await r.json();
+    replayFrames=d.frames||[];
+    const slider=document.getElementById('repSlider');
+    slider.max=Math.max(0,replayFrames.length-1);
+    if(replayIdx>=replayFrames.length) replayIdx=Math.max(0,replayFrames.length-1);
+    slider.value=replayIdx;
+    drawTrend();
+    showFrame(replayIdx);
+  }catch(e){}
+}
+function showFrame(i){
+  if(!replayFrames.length) return;
+  i=Math.max(0,Math.min(replayFrames.length-1,i));
+  replayIdx=i;
+  document.getElementById('repSlider').value=i;
+  const f=replayFrames[i];
+  document.getElementById('repInfo').textContent=
+    (i+1)+'/'+replayFrames.length+'  '+(f.shot_type||'-')+
+    '  综合 '+(f.total==null?'-':f.total);
+  document.getElementById('repImg').src='/api/frame/'+i+'?t='+Date.now();
+}
+function stepFrame(d){
+  if(!replayFrames.length) return;
+  showFrame(replayIdx+d);
+}
+function drawTrend(){
+  const cv=document.getElementById('trend');
+  const ctx=cv.getContext('2d');
+  ctx.clearRect(0,0,cv.width,cv.height);
+  if(replayFrames.length<2) return;
+  const W=cv.width,H=cv.height,pad=8;
+  const vals=replayFrames.map(f=>f.total);
+  const ymin=0,ymax=100;
+  const x=(i)=>pad+(W-2*pad)*i/(replayFrames.length-1);
+  const y=(v)=>H-pad-(H-2*pad)*(v==null?0:(v-ymin)/(ymax-ymin));
+  ctx.strokeStyle='#333';ctx.beginPath();
+  ctx.moveTo(pad,H/2);ctx.lineTo(W-pad,H/2);ctx.stroke();
+  ctx.strokeStyle='#5fd';ctx.lineWidth=2;ctx.beginPath();
+  let started=false;
+  vals.forEach((v,i)=>{ if(v==null) return; if(!started){ctx.moveTo(x(i),y(v));started=true;} else ctx.lineTo(x(i),y(v)); });
+  ctx.stroke();
+  if(replayFrames[replayIdx]){
+    const v=replayFrames[replayIdx].total;
+    if(v!=null){ctx.fillStyle='#ff0';ctx.beginPath();ctx.arc(x(replayIdx),y(v),3,0,7);ctx.fill();}
+  }
+}
+function oneLine(label,obj){
+  if(!obj) return '<div style="color:#666">'+label+'：未记录</div>';
+  return '<div><b>'+label+'</b>：'+(obj.shot_type||'-')+'  综合 '+(obj.total==null?'-':obj.total)+
+    '（标准 '+(obj.standardness==null?'-':obj.standardness)+
+    ' / 连贯 '+(obj.coherence==null?'-':obj.coherence)+
+    ' / 步伐 '+(obj.footwork==null?'-':obj.footwork)+
+    ' / 识别 '+(obj.action_score==null?'-':obj.action_score)+'）</div>';
+}
+function renderFuse(d){
+  const cs=d.current_stroke;
+  document.getElementById('curStroke').textContent=
+    cs ? ((cs.shot_type||'-')+'  综合 '+(cs.total==null?'-':cs.total)) : '暂无，请先挥拍一次';
+  const img=document.getElementById('curStrokeImg');
+  if(cs && cs.has_frame){ img.style.display='block'; img.src='/api/current_frame?t='+Date.now(); }
+  else img.style.display='none';
+  const el=document.getElementById('fuseInfo');
+  el.innerHTML=oneLine('正面',d.front)+oneLine('侧面',d.side)+oneLine('融合',d.fused);
+}
+async function captureView(v){
+  try{
+    const r=await fetch('/api/view/capture?view='+v,{method:'POST'});
+    renderFuse(await r.json());
+  }catch(e){}
+}
+async function resetViews(){
+  try{
+    await fetch('/api/view/reset',{method:'POST'});
+    renderFuse({front:null,side:null,fused:null});
+  }catch(e){}
+}
+async function pollFuse(){
+  if(view!=='fuse') return;
+  try{
+    const r=await fetch('/api/view/status');
+    renderFuse(await r.json());
+  }catch(e){}
+}
+async function pollReport(){
+  if(view!=='report') return;
+  try{
+    const r=await fetch('/api/session'); const d=await r.json();
+    document.getElementById('recCount').textContent=d.total_records||0;
+    const s=document.getElementById('summary'); s.innerHTML='';
+    if((d.summary||[]).length){
+      const tbl=document.createElement('table');
+      const thead=document.createElement('tr');
+      ['动作','次数','平均标准度','平均综合'].forEach(h=>{const th=document.createElement('th');th.textContent=h;thead.appendChild(th);});
+      tbl.appendChild(thead);
+      d.summary.forEach(row=>{
+        const tr=document.createElement('tr');
+        [row.class,row.count,row.avg_standardness==null?'-':row.avg_standardness,row.avg_total==null?'-':row.avg_total].forEach(v=>{const td=document.createElement('td');td.textContent=v;tr.appendChild(td);});
+        tbl.appendChild(tr);
+      });
+      s.appendChild(tbl);
+    }
+  }catch(e){}
+}
+setInterval(poll,300); setInterval(pollReport,1000); setInterval(pollReplay,800); setInterval(pollFuse,800); poll();
+</script>
+</body></html>
