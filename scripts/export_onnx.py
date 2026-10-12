@@ -2,6 +2,7 @@
 """导出端侧部署所需 ONNX：动作分类器（固定 T 窗口），可选导出 YOLOv8-Pose。"""
 
 import argparse
+import json
 import os
 
 import torch
@@ -27,7 +28,11 @@ def export_classifier(ckpt, out, T=None):
         opset_version=17,
         dynamo=False,
     )
+    classes_path = os.path.splitext(out)[0] + "_classes.json"
+    with open(classes_path, "w", encoding="utf-8") as f:
+        json.dump(classes, f, ensure_ascii=False, indent=2)
     print(f"已导出分类器 ONNX：{out}（输入 (B,{T},{in_dim})，输出 {len(classes)} 类 logits）")
+    print(f"已写出类目：{classes_path}")
     return out
 
 
