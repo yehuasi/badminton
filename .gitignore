@@ -22,3 +22,9 @@ models/
 # 本地运行产物
 replay/
 configs/
+
+# Office 临时文件
+~$*
+
+# 挑战杯材料渲染中间产物
+挑战杯/_render/
