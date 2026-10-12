@@ -117,5 +117,48 @@ class TestMotionGate(unittest.TestCase):
         self.assertEqual(len(out), 0)
 
 
+class TestCaptureAndWindow(unittest.TestCase):
+    def test_capture_mode_collects_window(self):
+        a = ShotAnalyzer(classifier=None, window=24, capture=True)
+        s = generate_sequence(2, T=24, rng=np.random.default_rng(0))
+        seq = np.concatenate([s, np.tile(s[-1], (8, 1))], axis=0).astype(np.float32)
+        for t in range(seq.shape[0]):
+            a.update_feature(seq[t])
+        self.assertEqual(len(a.captured), 1)
+        self.assertEqual(a.captured[0].shape, (24, F))
+
+    def test_long_window_peak_centered(self):
+        from app.classifier import ShotClassifierRunner
+
+        classifier = ShotClassifierRunner("models/shot_classifier.pt", T=24)
+        a = ShotAnalyzer(classifier=classifier, window=24)
+        parts = [generate_sequence(2, T=24, rng=np.random.default_rng(1)),
+                 generate_sequence(3, T=24, rng=np.random.default_rng(2)),
+                 generate_sequence(5, T=24, rng=np.random.default_rng(3))]
+        seq = np.concatenate(parts + [np.tile(parts[-1][-1], (8, 1))], axis=0).astype(np.float32)
+        out = []
+        for t in range(seq.shape[0]):
+            res = a.update_feature(seq[t])
+            if res is not None:
+                out.append(res)
+        # 连续多拍（窗口超长）应产出干净的一拍结果，而不是 0 或多个
+        self.assertEqual(len(out), 1)
+
+    def test_window_around_padding(self):
+        import os
+        import sys
+
+        scripts_dir = os.path.join(REPO_ROOT, "scripts")
+        if scripts_dir not in sys.path:
+            sys.path.insert(0, scripts_dir)
+        from prepare_selfcollected import _window_around
+
+        seq = np.arange(24 * F, dtype=np.float32).reshape(24, F)
+        w = _window_around(seq, center=1, T=24)  # 起点越界，需补边
+        self.assertEqual(w.shape, (24, F))
+        w2 = _window_around(seq, center=22, T=24)  # 终点越界，需补边
+        self.assertEqual(w2.shape, (24, F))
+
+
 if __name__ == "__main__":
     unittest.main()
