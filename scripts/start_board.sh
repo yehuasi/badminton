@@ -13,4 +13,4 @@
 # 摄像头设备 /dev/video2 对应 --source 2；如需演示模式把下面 --source 2 改成 --source demo。
 POSE=${1:-yolov8n-pose-480.onnx}
 cd /data/local/tmp/badminton || exit 1
-exec python3 -m app.server --backend onnx --source 2 --host 0.0.0.0 --port 8000 --pose-model "$POSE" --debug-motion >> /data/local/tmp/badminton/server.log 2>&1
+exec python3 -m app.server --backend onnx --source 2 --host 0.0.0.0 --port 8000 --pose-model "$POSE" >> /data/local/tmp/badminton/server.log 2>&1

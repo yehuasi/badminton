@@ -24,6 +24,9 @@ from app.fusion import fuse_views
 from app.store import ReplayStore
 from app.synth import generate_sequence, render_stick
 
+# 显示帧最大宽度：网页面板约 500px，缩小后再 JPEG 编码，降低编码耗时波动与带宽
+DISPLAY_MAX_W = 512
+
 
 def _open_capture(index_or_path):
     """打开摄像头或视频文件；Windows 上摄像头用 DirectShow 后端更稳。"""
@@ -58,6 +61,7 @@ class SharedState:
         self.current_stroke = None  # 当前这一拍：{result, frame, ts}
         self.pending_views = {"front": None, "side": None}
         self.frame_history = []  # 回看用：[(ts, result, jpg_bytes), ...]
+        self.frame_seq = 0       # 帧序号，供 MJPEG 流判断“是否有新帧”
         self.max_frames = 240
         self.result = {
             "source": "starting",
@@ -71,11 +75,19 @@ class SharedState:
         }
 
     def update(self, frame, result):
+        h, w = frame.shape[:2]
+        if w > DISPLAY_MAX_W:
+            scale = DISPLAY_MAX_W / float(w)
+            frame = cv2.resize(
+                frame, (DISPLAY_MAX_W, int(round(h * scale))),
+                interpolation=cv2.INTER_AREA,
+            )
         ok, jpg = cv2.imencode(".jpg", frame, [int(cv2.IMWRITE_JPEG_QUALITY), 80])
         with self.lock:
             if ok:
                 jpg_bytes = jpg.tobytes()
                 self.frame_jpg = jpg_bytes
+                self.frame_seq += 1
                 self.frame_history.append({
                     "ts": time.time(),
                     "result": dict(result),
@@ -87,7 +99,7 @@ class SharedState:
 
     def snapshot(self):
         with self.lock:
-            return self.frame_jpg, dict(self.result)
+            return self.frame_jpg, dict(self.result), self.frame_seq
 
     def record(self, result):
         with self.lock:
@@ -267,12 +279,17 @@ def _run_video(state, source, estimator, analyzer, handedness):
     cap = _open_capture(source)
     if not cap.isOpened():
         raise SystemExit(f"无法打开输入源：{source}")
-    t0, frames = time.time(), 0
-    fps = 0.0
-    last_result = None  # 最近一次完整击球结果，下一拍之前保持显示
+
+    # 显示与推理分离：显示循环按摄像头原生帧率跑（画面流畅，不随推理卡顿），
+    # 推理在独立线程按自己的节奏跑，使用最近一帧；骨架叠加可能滞后半拍但无感知。
+    frame_lock = threading.Lock()
+    latest_frame = None
+    last_kpts = None
+    last_result = None
     last_result_time = 0.0
-    last_lock_time = 0.0   # 上一拍锁定的时间（去重）
+    last_lock_time = 0.0
     last_locked_type = None
+
     waiting = {
         "source": str(source), "shot_type": "", "confidence": 0.0,
         "standardness": None, "errors": [], "advice": ["无有效击球动作，请完整挥拍一次。"],
@@ -283,46 +300,78 @@ def _run_video(state, source, estimator, analyzer, handedness):
         "standardness": None, "errors": [], "advice": ["未检测到人体，请全身入镜。"],
         "top3": [], "fps": 0.0,
     }
+
+    def analysis_loop():
+        nonlocal latest_frame, last_kpts, last_result, last_result_time
+        nonlocal last_lock_time, last_locked_type
+        while not state.stop_event.is_set():
+            with frame_lock:
+                frame = latest_frame
+            if frame is None:
+                time.sleep(0.005)
+                continue
+            persons = estimator.predict(frame)
+            if persons:
+                last_kpts = persons[0]
+                feat = compute_features(last_kpts, handedness=handedness)
+                analyzed = analyzer.update_feature(feat)
+                if analyzed is not None:
+                    analyzed["source"] = str(source)
+                    now = time.time()
+                    if analyzed.get("is_action", True):
+                        if (now - last_lock_time >= 1.5
+                                or analyzed["shot_type"] != last_locked_type):
+                            last_lock_time = now
+                            last_locked_type = analyzed["shot_type"]
+                            state.record(analyzed)
+                            state.persist(analyzed, frame)
+                            state.set_current_stroke(analyzed, frame)
+                    last_result = analyzed
+                    last_result_time = now
+                if last_result is not None and time.time() - last_result_time > 3.0:
+                    last_result = None
+                    state.clear_current_stroke()
+            else:
+                last_kpts = None
+                analyzer.reset()
+                last_result = None
+                state.clear_current_stroke()
+
+    threading.Thread(target=analysis_loop, daemon=True).start()
+
+    t0, frames = time.time(), 0
+    fps = 0.0
+    last_max_gap = 0.0
+    prev_frame_time = None
+    max_gap = 0.0
     while not state.stop_event.is_set():
         ok, frame = cap.read()
         if not ok:
             break
-        persons = estimator.predict(frame)
-        if persons:
-            kpts = persons[0]
-            frame = _draw_skeleton(frame, kpts)
-            feat = compute_features(kpts, handedness=handedness)
-            analyzed = analyzer.update_feature(feat)
-            if analyzed is not None:
-                analyzed["source"] = str(source)
-                now = time.time()
-                if analyzed.get("is_action", True):
-                    # 同一拍连续帧会重复出结果，按时间间隔 + 类型变化去重
-                    if (now - last_lock_time >= 1.5
-                            or analyzed["shot_type"] != last_locked_type):
-                        last_lock_time = now
-                        last_locked_type = analyzed["shot_type"]
-                        state.record(analyzed)
-                        state.persist(analyzed, frame)
-                        state.set_current_stroke(analyzed, frame)
-                last_result = analyzed
-                last_result_time = now
-            # 长时间未检测到有效动作，清除旧结果，避免一直显示上一拍
-            if last_result is not None and time.time() - last_result_time > 3.0:
-                last_result = None
-                state.clear_current_stroke()
-            result = last_result if last_result is not None else dict(waiting)
-        else:
-            analyzer.reset()
-            last_result = None
-            state.clear_current_stroke()
+        now = time.time()
+        if prev_frame_time is not None:
+            max_gap = max(max_gap, now - prev_frame_time)
+        prev_frame_time = now
+        with frame_lock:
+            latest_frame = frame.copy()
+        # 用最近一次骨架叠加（可能滞后半拍，但画面保持流畅）
+        if last_kpts is not None:
+            frame = _draw_skeleton(frame, last_kpts)
+        if last_kpts is None:
             result = dict(no_person)
+        elif last_result is not None:
+            result = dict(last_result)
+        else:
+            result = dict(waiting)
         frames += 1
         now = time.time()
         if now - t0 >= 1.0:
             fps = round(frames / (now - t0), 1)
+            last_max_gap = round(max_gap * 1000.0, 1)
             frames, t0 = 0, now
+            max_gap = 0.0
         result["fps"] = fps
+        result["max_frame_gap_ms"] = last_max_gap
         state.update(frame, result)
         time.sleep(0.001)
     cap.release()
@@ -392,16 +441,18 @@ def make_app(args, page_html):
     @app.get("/video_feed")
     async def video_feed():
         async def gen():
+            last_seq = -1
             while not state.stop_event.is_set():
-                jpg, _ = state.snapshot()
-                if jpg:
+                jpg, _, seq = state.snapshot()
+                if jpg and seq != last_seq:
+                    last_seq = seq
                     yield (b"--frame\r\nContent-Type: image/jpeg\r\n\r\n" + jpg + b"\r\n")
-                await asyncio.sleep(0.04)
+                await asyncio.sleep(0.005)
         return StreamingResponse(gen(), media_type="multipart/x-mixed-replace; boundary=frame")
 
     @app.get("/api/status")
     def status():
-        _, result = state.snapshot()
+        _, result, _ = state.snapshot()
         return JSONResponse(result)
 
     @app.get("/api/session")
