@@ -175,10 +175,13 @@ class ShotAnalyzer:
     快拍窗口短、慢拍窗口长，一拍恰好一次结果，且分类只在收拍时运行一次。
     """
 
-    def __init__(self, classifier=None, window=24, debug=False):
+    def __init__(self, classifier=None, window=24, debug=False, capture=False):
         self.window = window
         self.classifier = classifier
         self.debug = debug
+        # capture=True：只采集切分出的窗口（供数据准备用），不跑分类
+        self.capture = capture
+        self.captured = []
         self.buffer = []  # 正在收集的帧
         self.collecting = False
         self._prev = None
@@ -233,12 +236,26 @@ class ShotAnalyzer:
             if self.debug:
                 print(f"[finalize] too short frames={n}", flush=True)
             return None
-        if not _has_swing(np.stack(frames, axis=0)):
+        raw = np.stack(frames, axis=0)
+        if not _has_swing(raw):
             if self.debug:
-                mean = float(_swing_speed(np.stack(frames, axis=0)).mean())
-                print(f"[finalize] rejected mean={mean:.2f}", flush=True)
+                print(f"[finalize] rejected mean={float(_swing_speed(raw).mean()):.2f}", flush=True)
             return None  # 轻量安全闸：原始帧平均挥速须达标，过滤纯抖动
-        seq = _resample(frames, self.window)
+        if n > 2 * self.window:
+            # 连续动作导致收集过长：取挥速峰值附近的 T 帧，避免整段压缩进一个窗口
+            speed = _swing_speed(raw)
+            peak = int(np.argmax(speed)) + 1
+            half = self.window // 2
+            lo = max(0, peak - half)
+            hi = min(n, lo + self.window)
+            lo = max(0, hi - self.window)
+            raw = raw[lo:hi]
+            if self.debug:
+                print(f"[finalize] long {n} -> peak-centered {raw.shape[0]}", flush=True)
+        seq = _resample(raw, self.window)
+        if self.capture:
+            self.captured.append(seq)
+            return None
         result = self.analyze_sequence(seq)
         if self.debug:
             print(

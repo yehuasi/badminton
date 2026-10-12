@@ -55,10 +55,42 @@ $env:HTTPS_PROXY="http://127.0.0.1:7897"
 杀球、搓球、反手发网前小球识别较好；高远球与吊球容易混淆，正手发高远球样本太少，
 这两项需靠自采数据与更丰富的特征进一步改善。
 
-## 5. 自采数据（后续）
+## 5. 自采数据（用户拍摄 → 训练集）
 
-用户自采视频到位后，用 YOLOv8-Pose 提取关键点，再按击球帧切窗口、转 15 维特征，
-复用 `app/features.py` 与 `scripts/common.py` 的格式即可接入训练。
+把视频按类别放进 `data/self_collected/<类别名>/`（7 个类别子目录已建好），文件名任意，
+支持 mp4/avi/mov/mkv。约定“一条视频只录一个完整动作”。
+
+```powershell
+.venv\Scripts\python scripts\prepare_selfcollected.py
+```
+
+脚本用 YOLOv8-Pose 逐帧提关键点，再**用与运行时完全相同的“活动触发式切分”定位
+挥拍并取 24 帧窗口**（保证训练分布与运行时一致）；某视频切不出窗口时退回“挥速峰值
+居中取窗”。输出 `data/processed_selfcollected/` 下的规范数据集。
+
+训练/微调：
+
+```powershell
+# 与 BFMD 合并训练（类别须一致）
+.venv\Scripts\python scripts\train.py --data data\processed_bfmd --extra data\processed_selfcollected --out models\shot_classifier_merged.pt
+
+# 或从 BFMD 模型微调（自采样本少时推荐）
+.venv\Scripts\python scripts\train.py --data data\processed_selfcollected --init models\shot_classifier_bfmd.pt --epochs 20 --out models\shot_classifier_self.pt
+```
+
+## 5.1 标准库角度区间拟合
+
+专业示范数据到位后，用它与运行时一致的特征统计“均值±σ”，产出可回填
+`app/score.py` 的 `STD_RANGES` 的区间：
+
+```powershell
+.venv\Scripts\python scripts\fit_std_ranges.py --data data\processed_selfcollected --hit detect
+```
+
+参数：`--hit detect`（自采切分窗口，用挥速峰值帧）或 `--hit center`（BFMD 等以击球帧
+居中的窗口）；`--stat sigma`（均值±kσ）或 `--stat percentile`（分位区间，更抗离群）。
+注意：区间质量取决于数据——可控双机位专业示范会得到紧致可用的区间；转播视频（BFMD）
+机位杂、关键点噪声大，拟合出的区间偏宽，仅作参考。
 
 ## 6. 序列级评分（阶段 A）
 

@@ -40,6 +40,10 @@ def main():
                         help="用 23 维运动学数据集（15 维 + 速度/加速度）训练，"
                              "专治高远球/吊球混淆；数据目录切换为 data/processed_bfmd_kin")
     parser.add_argument("--out", default=os.path.join(REPO_ROOT, "models", "shot_classifier.pt"))
+    parser.add_argument("--extra", default=None,
+                        help="额外数据集目录（逗号分隔），与 --data 合并训练；类别须一致")
+    parser.add_argument("--init", default=None,
+                        help="从已有 checkpoint 初始化权重（微调用），例如 models/shot_classifier_bfmd.pt")
     args = parser.parse_args()
 
     torch.manual_seed(args.seed)
@@ -52,6 +56,14 @@ def main():
     )
     x, y, classes = load_dataset(data_dir)
     print(f"数据集：{x.shape}，类别 {len(classes)}")
+    if args.extra:
+        for extra_dir in [s.strip() for s in args.extra.split(",") if s.strip()]:
+            xe, ye, ce = load_dataset(extra_dir)
+            if list(ce) != list(classes):
+                raise SystemExit(f"类别不一致：{extra_dir} 与主数据集不同，请先统一类别顺序。")
+            x = np.concatenate([x, xe], axis=0)
+            y = np.concatenate([y, ye], axis=0)
+            print(f"已合并 {extra_dir}：+{xe.shape[0]} 个样本 -> 共 {x.shape[0]}")
 
     manifest = load_manifest(data_dir) if args.split_by_match else None
     train_loader, val_loader = make_loaders_with_indices(
@@ -61,6 +73,10 @@ def main():
 
     model = ShotClassifier(in_dim=x.shape[2], hidden=args.hidden, layers=args.layers,
                            num_classes=len(classes))
+    if args.init:
+        payload = torch.load(args.init, map_location="cpu", weights_only=False)
+        model.load_state_dict(payload["state_dict"])
+        print(f"已从 {args.init} 初始化权重（微调）")
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=1e-4)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=args.epochs)
     class_weights = None
