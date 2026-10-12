@@ -33,11 +33,13 @@ OVERHEAD_THRESHOLD = 0.15
 SWING_MEAN_THRESHOLD = 2.0
 
 # 活动触发式切分参数（帧不进固定窗口，检测到挥拍起止才收集）。
-MOTION_FRAME_THRESHOLD = 2.5  # 单帧运动量阈值（臂抬角 + 腕相对肩高 + 腕前伸的变化）
+# 阈值按真实摄像头数据上调：站立中位运动量约 1.7，走动/调整可达 3~8，
+# 故取 3.5 减少把非挥拍动作当击球；最短 8 帧过滤噪声短窗。
+MOTION_FRAME_THRESHOLD = 3.5  # 单帧运动量阈值（臂抬角 + 腕相对肩高 + 腕前伸的变化）
 ONSET_FRAMES = 3              # 连续多少帧运动判定“挥拍开始”
-OFFSET_FRAMES = 4             # 连续多少帧静止判定“挥拍结束”
-MIN_STROKE_FRAMES = 6         # 至少收集多少帧才算一拍
-MAX_STROKE_FRAMES = 120       # 最多收集多少帧（防无限收集）
+OFFSET_FRAMES = 5             # 连续多少帧静止判定“挥拍结束”
+MIN_STROKE_FRAMES = 8         # 至少收集多少帧才算一拍
+MAX_STROKE_FRAMES = 90        # 最多收集多少帧（防无限收集）
 
 # 置信度闸：分类置信度低于该值视为“动作不明确”，不强行归类。
 NO_ACTION_CONF = 0.45

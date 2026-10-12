@@ -24,8 +24,10 @@ from app.fusion import fuse_views
 from app.store import ReplayStore
 from app.synth import generate_sequence, render_stick
 
-# 显示帧最大宽度：网页面板约 500px，缩小后再 JPEG 编码，降低编码耗时波动与带宽
-DISPLAY_MAX_W = 512
+# 显示帧最大宽度与 JPEG 质量：网页面板约 500px，缩小 + 降质以降低带宽，
+# 让视频流在手机热点等抖动链路上更抗卡
+DISPLAY_MAX_W = 400
+DISPLAY_JPEG_QUALITY = 70
 
 
 def _open_capture(index_or_path):
@@ -82,7 +84,9 @@ class SharedState:
                 frame, (DISPLAY_MAX_W, int(round(h * scale))),
                 interpolation=cv2.INTER_AREA,
             )
-        ok, jpg = cv2.imencode(".jpg", frame, [int(cv2.IMWRITE_JPEG_QUALITY), 80])
+        ok, jpg = cv2.imencode(
+            ".jpg", frame, [int(cv2.IMWRITE_JPEG_QUALITY), DISPLAY_JPEG_QUALITY]
+        )
         with self.lock:
             if ok:
                 jpg_bytes = jpg.tobytes()
