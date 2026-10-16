@@ -18,6 +18,7 @@ __pycache__/
 # 数据与模型产物（数据集较大且可重新生成/下载）
 data/
 models/
+self-build dataset/
 
 # 本地运行产物
 replay/
