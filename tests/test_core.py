@@ -13,7 +13,7 @@ if REPO_ROOT not in sys.path:
 
 from app.analyzer import ShotAnalyzer, _hit_group, detect_hit_frame  # noqa: E402
 from app.classes import SHOT_CLASSES, group_allowed_classes, shot_group  # noqa: E402
-from app.features import F, add_kinematics, compute_features, feature_dict  # noqa: E402
+from app.features import F, F_FULL, add_kinematics, compute_features, feature_dict  # noqa: E402
 from app.fusion import fuse_views  # noqa: E402
 from app.score import score_standardness  # noqa: E402
 from app.synth import generate_sequence  # noqa: E402
@@ -37,7 +37,7 @@ class TestFeatures(unittest.TestCase):
         kpts[:, 2] = 1.0
         feat = compute_features(kpts, handedness="right")
         self.assertEqual(feat.shape, (F,))
-        self.assertEqual(len(feature_dict(kpts)), F)
+        self.assertEqual(len(feature_dict(kpts)), F_FULL)
 
 
 class TestGate(unittest.TestCase):

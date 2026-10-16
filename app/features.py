@@ -232,10 +232,14 @@ def compute_features_full(kpts, handedness="right"):
 
 
 def feature_dict(kpts, handedness="right"):
-    """把关键点转成 {特征名: 值} 字典，便于评分规则按名取用。"""
-    feat = compute_features(kpts, handedness=handedness)
+    """把关键点转成 {特征名: 值} 字典，便于评分规则按名取用。
+
+    包含 24 维扩展特征（15 维基础 + 9 维躯干朝向/转体/拍臂指向等），
+    缺失关键点对应的特征值为 None。
+    """
+    feat = compute_features_full(kpts, handedness=handedness)
     return {
-        name: (None if np.isnan(feat[i]) else float(feat[i]))
-        for i, name in enumerate(FEATURE_NAMES)
+        name: (None if np.isnan(float(feat[i])) else float(feat[i]))
+        for i, name in enumerate(FEATURE_NAMES_FULL)
     }
 

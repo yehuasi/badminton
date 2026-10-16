@@ -1,0 +1,3887 @@
+{
+ "correct": {
+  "mean": 61.694202898550735,
+  "median": 66.9,
+  "flagged": 0.6847826086956522
+ },
+ "error": {
+  "mean": 47.65818181818182,
+  "median": 44.2,
+  "flagged": 0.8363636363636363
+ },
+ "rows": [
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 100.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 35.0,
+   "errors": [
+    "疑似动作过大"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 41.0,
+   "errors": [
+    "疑似手腕未充分外展（拍面控制不足）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 95.6,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "错误",
+   "family": "手腕与拍面控制",
+   "score": 68.7,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 100.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "正手发高远球",
+   "label": "错误",
+   "family": "发球专项",
+   "score": 58.7,
+   "errors": [
+    "疑似未充分随挥"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "错误",
+   "family": "侧身与转体",
+   "score": 56.9,
+   "errors": [
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似侧身不足（身体正对球网）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "挑球",
+   "label": "错误",
+   "family": "发力链与手臂主导",
+   "score": 42.0,
+   "errors": [
+    "疑似未跟送（肘部僵硬）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 90.2,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 30.6,
+   "errors": [
+    "疑似拍头高于腰（违例风险）",
+    "疑似动作过大"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 66.2,
+   "errors": [
+    "疑似肘部过度前伸（拍面控制差）",
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 71.4,
+   "errors": [
+    "疑似击球点过高（未低位引拍）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 40.0,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 19.1,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "正确",
+   "family": "",
+   "score": 95.2,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 48.0,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 75.6,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 52.2,
+   "errors": [
+    "疑似动作过大",
+    "疑似引拍时肘部过度后拉"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "杀球",
+   "label": "正确",
+   "family": "",
+   "score": 27.8,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 69.5,
+   "errors": [
+    "疑似离网太远（手臂未前伸）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "错误",
+   "family": "发力链与手臂主导",
+   "score": 33.0,
+   "errors": [
+    "疑似未跟送（肘部僵硬）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 96.4,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 70.6,
+   "errors": [
+    "疑似离网太远（手臂未前伸）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 31.5,
+   "errors": [
+    "疑似拍头高于腰（违例风险）",
+    "疑似动作过大"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "发力链与手臂主导",
+   "score": 27.8,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低",
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "正确",
+   "family": "",
+   "score": 23.5,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "正手发高远球",
+   "label": "正确",
+   "family": "",
+   "score": 95.2,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 81.1,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "侧身与转体",
+   "score": 44.8,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 36.0,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "正手发高远球",
+   "label": "错误",
+   "family": "步伐与支撑",
+   "score": 58.7,
+   "errors": [
+    "疑似未充分随挥"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 100.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "错误",
+   "family": "手腕与拍面控制",
+   "score": 54.9,
+   "errors": [
+    "疑似手腕未充分外展（拍面控制不足）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 99.7,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "正确",
+   "family": "",
+   "score": 28.7,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "正确",
+   "family": "",
+   "score": 0.0,
+   "errors": [
+    "疑似屈肘击球（肘角偏小）",
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "正手发高远球",
+   "label": "错误",
+   "family": "侧身与转体",
+   "score": 78.9,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "错误",
+   "family": "发力链与手臂主导",
+   "score": 76.7,
+   "errors": [
+    "疑似击球点过高（未低位引拍）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 71.1,
+   "errors": [
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 69.8,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "正手发高远球",
+   "label": "错误",
+   "family": "侧身与转体",
+   "score": 43.6,
+   "errors": [
+    "疑似击球点过高（高于腰）",
+    "疑似未充分随挥"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 30.0,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "错误",
+   "family": "发力链与手臂主导",
+   "score": 63.0,
+   "errors": [
+    "疑似击球点过高（未低位引拍）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 75.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 87.2,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 76.6,
+   "errors": [
+    "疑似肘部过度前伸（拍面控制差）",
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 58.0,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 93.2,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "正手发高远球",
+   "label": "正确",
+   "family": "",
+   "score": 44.6,
+   "errors": [
+    "疑似击球点过高（高于腰）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "正手发高远球",
+   "label": "正确",
+   "family": "",
+   "score": 97.7,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "正确",
+   "family": "",
+   "score": 30.0,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 71.3,
+   "errors": [
+    "疑似动作过大"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 36.9,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 30.0,
+   "errors": [
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 37.7,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 97.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "正手发高远球",
+   "label": "正确",
+   "family": "",
+   "score": 64.0,
+   "errors": [
+    "疑似击球点过高（高于腰）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 87.5,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "错误",
+   "family": "侧身与转体",
+   "score": 65.0,
+   "errors": [
+    "疑似击球点偏低（臂上抬不足）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 63.9,
+   "errors": [
+    "疑似动作过大"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "正确",
+   "family": "",
+   "score": 22.2,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "错误",
+   "family": "手腕与拍面控制",
+   "score": 78.3,
+   "errors": [
+    "疑似肘部过度前伸（拍面控制差）",
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 100.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 100.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 42.0,
+   "errors": [
+    "疑似未跟送（肘部僵硬）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "杀球",
+   "label": "正确",
+   "family": "",
+   "score": 22.5,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 75.5,
+   "errors": [
+    "疑似肘部过度前伸（拍面控制差）",
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "正手发高远球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 58.7,
+   "errors": [
+    "疑似未充分随挥"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "错误",
+   "family": "手腕与拍面控制",
+   "score": 35.2,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "正手发高远球",
+   "label": "正确",
+   "family": "",
+   "score": 88.5,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "正确",
+   "family": "",
+   "score": 20.2,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "错误",
+   "family": "手腕与拍面控制",
+   "score": 50.2,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶",
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 39.6,
+   "errors": [
+    "疑似未跟送（肘部僵硬）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 77.3,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "正确",
+   "family": "",
+   "score": 28.3,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 73.7,
+   "errors": [
+    "疑似击球点过高（未低位引拍）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 62.0,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 72.8,
+   "errors": [
+    "疑似动作过大（搓成挑球）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 94.8,
+   "errors": [
+    "疑似引拍时肘部过度后拉"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "高远球",
+   "label": "正确",
+   "family": "",
+   "score": 15.1,
+   "errors": [
+    "疑似屈肘击球（肘角偏小）",
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 99.5,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 67.9,
+   "errors": [
+    "疑似肘部过度前伸（拍面控制差）",
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 84.6,
+   "errors": [
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "错误",
+   "family": "手腕与拍面控制",
+   "score": 79.8,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 9.0,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低",
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "正确",
+   "family": "",
+   "score": 9.4,
+   "errors": [
+    "疑似屈肘击球（肘角偏小）",
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 73.6,
+   "errors": [
+    "疑似未跟送（肘部僵硬）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 58.8,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 89.8,
+   "errors": [
+    "疑似离网太远（手臂未前伸）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "正手发高远球",
+   "label": "正确",
+   "family": "",
+   "score": 71.4,
+   "errors": [
+    "疑似击球点过高（高于腰）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 82.4,
+   "errors": [
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 37.0,
+   "errors": [
+    "疑似未跟送（肘部僵硬）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "挑球",
+   "label": "错误",
+   "family": "手腕与拍面控制",
+   "score": 66.7,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 42.5,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶",
+    "疑似肘部过度前伸（拍面控制差）",
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "挑球",
+   "label": "错误",
+   "family": "发力链与手臂主导",
+   "score": 37.5,
+   "errors": [
+    "疑似手腕未充分外展（拍面控制不足）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 55.7,
+   "errors": [
+    "疑似动作过大",
+    "疑似引拍时肘部过度后拉"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 80.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 70.2,
+   "errors": [
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "正确",
+   "family": "",
+   "score": 14.4,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低",
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "错误",
+   "family": "步伐与支撑",
+   "score": 69.9,
+   "errors": [
+    "疑似引拍时肘部过度后拉"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "手腕与拍面控制",
+   "score": 81.8,
+   "errors": [
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "正确",
+   "family": "",
+   "score": 38.9,
+   "errors": [
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶",
+    "疑似侧身不足（身体正对球网）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "挑球",
+   "label": "错误",
+   "family": "发力链与手臂主导",
+   "score": 34.8,
+   "errors": [
+    "疑似击球点过高（未低位引拍）",
+    "疑似未跟送（肘部僵硬）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 18.0,
+   "errors": [
+    "疑似击球点过高（未低位引拍）",
+    "疑似未跟送（肘部僵硬）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 66.0,
+   "errors": [
+    "疑似肘部过度前伸（拍面控制差）",
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 49.8,
+   "errors": [
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 51.2,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 91.8,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 95.9,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 40.3,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低",
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 66.8,
+   "errors": [
+    "疑似击球点过高（未低位引拍）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 37.9,
+   "errors": [
+    "疑似未跟送（肘部僵硬）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 54.5,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 99.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 36.1,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 67.6,
+   "errors": [
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "正手发高远球",
+   "label": "正确",
+   "family": "",
+   "score": 30.6,
+   "errors": [
+    "疑似击球点过高（高于腰）",
+    "疑似未充分随挥"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "正手发高远球",
+   "label": "正确",
+   "family": "",
+   "score": 41.9,
+   "errors": [
+    "疑似击球点过高（高于腰）",
+    "疑似未充分随挥"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "错误",
+   "family": "连贯与节奏",
+   "score": 30.0,
+   "errors": [
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "正确",
+   "family": "",
+   "score": 100.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "错误",
+   "family": "手腕与拍面控制",
+   "score": 30.0,
+   "errors": [
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 93.4,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 89.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 10.4,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低",
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 80.6,
+   "errors": [
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "连贯与节奏",
+   "score": 43.7,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "错误",
+   "family": "手腕与拍面控制",
+   "score": 56.0,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似肘部过度前伸（拍面控制差）",
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "高远球",
+   "label": "正确",
+   "family": "",
+   "score": 80.9,
+   "errors": [
+    "疑似屈肘击球（肘角偏小）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 44.0,
+   "errors": [
+    "疑似手腕未充分外展（拍面控制不足）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "杀球",
+   "label": "正确",
+   "family": "",
+   "score": 44.3,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 75.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "错误",
+   "family": "手腕与拍面控制",
+   "score": 61.4,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "正确",
+   "family": "",
+   "score": 30.0,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "错误",
+   "family": "侧身与转体",
+   "score": 3.7,
+   "errors": [
+    "疑似屈肘击球（肘角偏小）",
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 70.9,
+   "errors": [
+    "疑似肘部过度前伸（拍面控制差）",
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 81.1,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 79.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "错误",
+   "family": "侧身与转体",
+   "score": 15.8,
+   "errors": [
+    "疑似屈肘击球（肘角偏小）",
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 41.1,
+   "errors": [
+    "疑似未跟送（肘部僵硬）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "错误",
+   "family": "步伐与支撑",
+   "score": 72.7,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "错误",
+   "family": "手腕与拍面控制",
+   "score": 58.9,
+   "errors": [
+    "疑似动作过大"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "正确",
+   "family": "",
+   "score": 41.4,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 9.3,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低",
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 44.7,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "发力链与手臂主导",
+   "score": 12.7,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低",
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 71.4,
+   "errors": [
+    "疑似肘部过度前伸（拍面控制差）",
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 87.6,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 21.7,
+   "errors": [
+    "疑似未跟送（肘部僵硬）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "高远球",
+   "label": "正确",
+   "family": "",
+   "score": 30.0,
+   "errors": [
+    "疑似屈肘击球（肘角偏小）",
+    "疑似击球点偏低（臂上抬不足）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "正确",
+   "family": "",
+   "score": 54.2,
+   "errors": [
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "错误",
+   "family": "手腕与拍面控制",
+   "score": 57.1,
+   "errors": [
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 79.1,
+   "errors": [
+    "疑似离网太远（手臂未前伸）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 86.5,
+   "errors": [
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 95.7,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 42.1,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 49.0,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 100.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 32.5,
+   "errors": [
+    "疑似未跟送（肘部僵硬）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "高远球",
+   "label": "正确",
+   "family": "",
+   "score": 16.4,
+   "errors": [
+    "疑似屈肘击球（肘角偏小）",
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 69.7,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 100.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "错误",
+   "family": "手腕与拍面控制",
+   "score": 93.5,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 50.3,
+   "errors": [
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "正确",
+   "family": "",
+   "score": 87.2,
+   "errors": [
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "手腕与拍面控制",
+   "score": 30.0,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 70.2,
+   "errors": [
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 36.3,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "错误",
+   "family": "发力链与手臂主导",
+   "score": 37.8,
+   "errors": [
+    "疑似手腕未充分外展（拍面控制不足）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "高远球",
+   "label": "正确",
+   "family": "",
+   "score": 9.8,
+   "errors": [
+    "疑似屈肘击球（肘角偏小）",
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "手腕与拍面控制",
+   "score": 21.9,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低",
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 66.9,
+   "errors": [
+    "疑似肘部过度前伸（拍面控制差）",
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "手腕与拍面控制",
+   "score": 44.2,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "正确",
+   "family": "",
+   "score": 12.9,
+   "errors": [
+    "疑似屈肘击球（肘角偏小）",
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 80.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 100.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 97.9,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 91.5,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 30.8,
+   "errors": [
+    "疑似未跟送（肘部僵硬）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 65.9,
+   "errors": [
+    "疑似肘部过度前伸（拍面控制差）",
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "错误",
+   "family": "手腕与拍面控制",
+   "score": 95.5,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 66.8,
+   "errors": [
+    "疑似肘部过度前伸（拍面控制差）",
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 100.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "正手发高远球",
+   "label": "正确",
+   "family": "",
+   "score": 80.5,
+   "errors": [
+    "疑似击球点过高（高于腰）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "错误",
+   "family": "手腕与拍面控制",
+   "score": 76.6,
+   "errors": [
+    "疑似引拍时肘部过度后拉"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 29.2,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "正确",
+   "family": "",
+   "score": 54.5,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 100.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 74.9,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 100.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "正确",
+   "family": "",
+   "score": 65.0,
+   "errors": [
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 36.8,
+   "errors": [
+    "疑似动作过大",
+    "疑似引拍时肘部过度后拉"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "挑球",
+   "label": "错误",
+   "family": "连贯与节奏",
+   "score": 75.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 80.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 23.5,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "正手发高远球",
+   "label": "正确",
+   "family": "",
+   "score": 58.7,
+   "errors": [
+    "疑似未充分随挥"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "错误",
+   "family": "发力链与手臂主导",
+   "score": 63.4,
+   "errors": [
+    "疑似击球点过高（未低位引拍）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 43.4,
+   "errors": [
+    "疑似动作过大"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "正手发高远球",
+   "label": "错误",
+   "family": "发球专项",
+   "score": 41.7,
+   "errors": [
+    "疑似未充分随挥"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 43.2,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低",
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "错误",
+   "family": "手腕与拍面控制",
+   "score": 27.2,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶",
+    "疑似肘部过度前伸（拍面控制差）",
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "错误",
+   "family": "发球专项",
+   "score": 100.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 37.5,
+   "errors": [
+    "疑似手腕未充分外展（拍面控制不足）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 37.6,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低",
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 51.4,
+   "errors": [
+    "疑似屈肘击球（肘角偏小）",
+    "疑似击球点偏低（臂上抬不足）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 66.9,
+   "errors": [
+    "疑似肘部过度前伸（拍面控制差）",
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 37.8,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 100.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 65.7,
+   "errors": [
+    "疑似肘部过度前伸（拍面控制差）",
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "发力链与手臂主导",
+   "score": 21.3,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低",
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "手腕与拍面控制",
+   "score": 65.0,
+   "errors": [
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "正手发高远球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 100.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "正确",
+   "family": "",
+   "score": 19.7,
+   "errors": [
+    "疑似屈肘击球（肘角偏小）",
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 33.0,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 83.4,
+   "errors": [
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "手腕与拍面控制",
+   "score": 39.6,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低",
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 51.4,
+   "errors": [
+    "疑似未跟送（肘部僵硬）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 69.8,
+   "errors": [
+    "疑似离网太远（手臂未前伸）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "正确",
+   "family": "",
+   "score": 100.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "错误",
+   "family": "发力链与手臂主导",
+   "score": 0.0,
+   "errors": [
+    "疑似屈肘击球（肘角偏小）",
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶",
+    "疑似侧身不足（身体正对球网）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "高远球",
+   "label": "正确",
+   "family": "",
+   "score": 13.9,
+   "errors": [
+    "疑似屈肘击球（肘角偏小）",
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 75.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 47.9,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 73.7,
+   "errors": [
+    "疑似肘部过度前伸（拍面控制差）",
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 67.3,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 35.0,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 83.8,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "正确",
+   "family": "",
+   "score": 19.7,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低",
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 71.5,
+   "errors": [
+    "疑似击球点过高（未低位引拍）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 28.8,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低",
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 86.1,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "正手发高远球",
+   "label": "错误",
+   "family": "连贯与节奏",
+   "score": 37.6,
+   "errors": [
+    "疑似未充分随挥"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "正确",
+   "family": "",
+   "score": 98.8,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 62.5,
+   "errors": [
+    "疑似手腕未充分外展（拍面控制不足）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "杀球",
+   "label": "正确",
+   "family": "",
+   "score": 64.8,
+   "errors": [
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 98.1,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 36.1,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "发力链与手臂主导",
+   "score": 19.9,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低",
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "正确",
+   "family": "",
+   "score": 64.3,
+   "errors": [
+    "疑似屈肘击球"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 26.9,
+   "errors": [
+    "疑似拍头高于腰（违例风险）",
+    "疑似动作过大",
+    "疑似引拍时肘部过度后拉"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "高远球",
+   "label": "错误",
+   "family": "连贯与节奏",
+   "score": 1.3,
+   "errors": [
+    "疑似屈肘击球（肘角偏小）",
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 76.4,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 56.0,
+   "errors": [
+    "疑似未跟送（肘部僵硬）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "高远球",
+   "label": "正确",
+   "family": "",
+   "score": 30.0,
+   "errors": [
+    "疑似屈肘击球（肘角偏小）",
+    "疑似击球点偏低（臂上抬不足）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "正手发高远球",
+   "label": "错误",
+   "family": "发球专项",
+   "score": 100.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 75.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "正手发高远球",
+   "label": "正确",
+   "family": "",
+   "score": 23.3,
+   "errors": [
+    "疑似击球点过高（高于腰）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 60.8,
+   "errors": [
+    "疑似离网太远（手臂未前伸）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 24.9,
+   "errors": [
+    "疑似手腕未充分外展（拍面控制不足）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 78.1,
+   "errors": [
+    "疑似肘部过度前伸（拍面控制差）",
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 38.1,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "正手发高远球",
+   "label": "正确",
+   "family": "",
+   "score": 45.7,
+   "errors": [
+    "疑似击球点过高（高于腰）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 72.4,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 67.2,
+   "errors": [
+    "疑似肘部过度前伸（拍面控制差）",
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "正手发高远球",
+   "label": "正确",
+   "family": "",
+   "score": 98.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 44.1,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 70.2,
+   "errors": [
+    "疑似肘部过度前伸（拍面控制差）",
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 37.9,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "正确",
+   "family": "",
+   "score": 42.5,
+   "errors": [
+    "疑似屈肘击球"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "错误",
+   "family": "手腕与拍面控制",
+   "score": 27.0,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 76.7,
+   "errors": [
+    "疑似击球点过高（未低位引拍）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "错误",
+   "family": "步伐与支撑",
+   "score": 51.3,
+   "errors": [
+    "疑似手腕未充分外展（拍面控制不足）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 34.9,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "正确",
+   "family": "",
+   "score": 55.0,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 31.8,
+   "errors": [
+    "疑似拍头高于腰（违例风险）",
+    "疑似动作过大"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 7.4,
+   "errors": [
+    "疑似屈肘击球（肘角偏小）",
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "正确",
+   "family": "",
+   "score": 40.0,
+   "errors": [
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 79.4,
+   "errors": [
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 100.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 86.7,
+   "errors": [
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 70.8,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "正确",
+   "family": "",
+   "score": 36.9,
+   "errors": [
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 75.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 44.9,
+   "errors": [
+    "疑似手腕未充分外展（拍面控制不足）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 86.5,
+   "errors": [
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 72.9,
+   "errors": [
+    "疑似肘部过度前伸（拍面控制差）",
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 37.1,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 85.7,
+   "errors": [
+    "疑似动作过大",
+    "疑似引拍时肘部过度后拉"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 73.8,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "错误",
+   "family": "手腕与拍面控制",
+   "score": 87.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "侧身与转体",
+   "score": 44.2,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 77.3,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 97.1,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "错误",
+   "family": "侧身与转体",
+   "score": 15.5,
+   "errors": [
+    "疑似屈肘击球（肘角偏小）",
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "错误",
+   "family": "发力链与手臂主导",
+   "score": 65.0,
+   "errors": [
+    "疑似屈肘击球（肘角偏小）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 41.1,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "正确",
+   "family": "",
+   "score": 19.8,
+   "errors": [
+    "疑似屈肘击球（肘角偏小）",
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "正确",
+   "family": "",
+   "score": 100.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 69.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 100.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 92.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 78.7,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 65.8,
+   "errors": [
+    "疑似肘部过度前伸（拍面控制差）",
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "发力链与手臂主导",
+   "score": 30.5,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 80.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "错误",
+   "family": "发力链与手臂主导",
+   "score": 81.3,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 99.6,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 54.2,
+   "errors": [
+    "疑似未跟送（肘部僵硬）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 14.3,
+   "errors": [
+    "疑似击球点过高（未低位引拍）",
+    "疑似未跟送（肘部僵硬）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 100.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "正确",
+   "family": "",
+   "score": 11.9,
+   "errors": [
+    "疑似屈肘击球（肘角偏小）",
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 43.2,
+   "errors": [
+    "疑似手腕未充分外展（拍面控制不足）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "杀球",
+   "label": "正确",
+   "family": "",
+   "score": 13.3,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低",
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "正确",
+   "family": "",
+   "score": 45.7,
+   "errors": [
+    "疑似屈肘击球（肘角偏小）",
+    "疑似击球点偏低（臂上抬不足）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 6.7,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "正确",
+   "family": "",
+   "score": 15.6,
+   "errors": [
+    "疑似屈肘击球（肘角偏小）",
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "错误",
+   "family": "手腕与拍面控制",
+   "score": 87.7,
+   "errors": [
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 69.0,
+   "errors": [
+    "疑似离网太远（手臂未前伸）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "正确",
+   "family": "",
+   "score": 42.3,
+   "errors": [
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶",
+    "疑似侧身不足（身体正对球网）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 69.8,
+   "errors": [
+    "疑似引拍时肘部过度后拉"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 21.6,
+   "errors": [
+    "疑似击球点过高（未低位引拍）",
+    "疑似未跟送（肘部僵硬）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "正手发高远球",
+   "label": "正确",
+   "family": "",
+   "score": 100.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 36.5,
+   "errors": [
+    "疑似动作过大",
+    "疑似引拍时肘部过度后拉"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "高远球",
+   "label": "正确",
+   "family": "",
+   "score": 24.4,
+   "errors": [
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 27.5,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 81.7,
+   "errors": [
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "正确",
+   "family": "",
+   "score": 19.6,
+   "errors": [
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶",
+    "疑似侧身不足（身体正对球网）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "错误",
+   "family": "手腕与拍面控制",
+   "score": 45.3,
+   "errors": [
+    "疑似动作过大",
+    "疑似引拍时肘部过度后拉"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "高远球",
+   "label": "正确",
+   "family": "",
+   "score": 11.3,
+   "errors": [
+    "疑似屈肘击球（肘角偏小）",
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 97.9,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 84.4,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 97.9,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 79.9,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 0.0,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低",
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "正确",
+   "family": "",
+   "score": 2.5,
+   "errors": [
+    "疑似屈肘击球（肘角偏小）",
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "正确",
+   "family": "",
+   "score": 20.8,
+   "errors": [
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "错误",
+   "family": "侧身与转体",
+   "score": 39.2,
+   "errors": [
+    "疑似屈肘击球（肘角偏小）",
+    "疑似击球点偏低（臂上抬不足）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 51.1,
+   "errors": [
+    "疑似手腕未充分外展（拍面控制不足）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "高远球",
+   "label": "错误",
+   "family": "连贯与节奏",
+   "score": 30.9,
+   "errors": [
+    "疑似屈肘击球（肘角偏小）",
+    "疑似击球点偏低（臂上抬不足）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 39.3,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "高远球",
+   "label": "错误",
+   "family": "侧身与转体",
+   "score": 0.0,
+   "errors": [
+    "疑似屈肘击球（肘角偏小）",
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶",
+    "疑似侧身不足（身体正对球网）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 94.8,
+   "errors": [
+    "疑似引拍时肘部过度后拉"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 41.8,
+   "errors": [
+    "疑似动作过大",
+    "疑似引拍时肘部过度后拉"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "错误",
+   "family": "手腕与拍面控制",
+   "score": 44.9,
+   "errors": [
+    "疑似动作过大",
+    "疑似引拍时肘部过度后拉"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "正手发高远球",
+   "label": "错误",
+   "family": "发力链与手臂主导",
+   "score": 46.3,
+   "errors": [
+    "疑似击球点过高（高于腰）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 36.3,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 85.4,
+   "errors": [
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 47.4,
+   "errors": [
+    "疑似手腕未充分外展（拍面控制不足）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 99.4,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "正手发高远球",
+   "label": "正确",
+   "family": "",
+   "score": 53.8,
+   "errors": [
+    "疑似击球点过高（高于腰）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "正确",
+   "family": "",
+   "score": 32.8,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低",
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 71.0,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 44.0,
+   "errors": [
+    "疑似手腕未充分外展（拍面控制不足）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 100.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 67.5,
+   "errors": [
+    "疑似未跟送（肘部僵硬）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 91.4,
+   "errors": [
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 87.5,
+   "errors": [
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "正手发高远球",
+   "label": "正确",
+   "family": "",
+   "score": 98.6,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 45.3,
+   "errors": [
+    "疑似动作过大"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 53.5,
+   "errors": [
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 85.9,
+   "errors": [
+    "疑似击球点过高（未低位引拍）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 76.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 37.7,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "正手发高远球",
+   "label": "正确",
+   "family": "",
+   "score": 49.6,
+   "errors": [
+    "疑似击球点过高（高于腰）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 69.8,
+   "errors": [
+    "疑似引拍时肘部过度后拉"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 45.9,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 50.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "手腕与拍面控制",
+   "score": 30.0,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 66.1,
+   "errors": [
+    "疑似肘部过度前伸（拍面控制差）",
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "高远球",
+   "label": "错误",
+   "family": "发力链与手臂主导",
+   "score": 9.8,
+   "errors": [
+    "疑似屈肘击球（肘角偏小）",
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 76.3,
+   "errors": [
+    "疑似未跟送（肘部僵硬）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "杀球",
+   "label": "正确",
+   "family": "",
+   "score": 56.7,
+   "errors": [
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 42.0,
+   "errors": [
+    "疑似未跟送（肘部僵硬）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "高远球",
+   "label": "正确",
+   "family": "",
+   "score": 30.0,
+   "errors": [
+    "疑似击球点偏低（臂上抬不足）",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "正确",
+   "family": "",
+   "score": 11.5,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低",
+    "疑似重心未跟进（击球点偏后）"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "错误",
+   "family": "发力链与手臂主导",
+   "score": 86.8,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 78.2,
+   "errors": [
+    "疑似肘部过度前伸（拍面控制差）",
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 98.8,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 50.2,
+   "errors": [
+    "疑似未跟送（肘部僵硬）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "正手发高远球",
+   "label": "错误",
+   "family": "击球点与空间位置",
+   "score": 100.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "杀球",
+   "label": "错误",
+   "family": "手腕与拍面控制",
+   "score": 23.9,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 35.2,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 37.4,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 51.2,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 96.6,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "反手发网前小球",
+   "label": "正确",
+   "family": "",
+   "score": 75.0,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 39.5,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 78.7,
+   "errors": [
+    "疑似肘部过度前伸（拍面控制差）",
+    "疑似手腕过度前伸（拍面控制差）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "正手发高远球",
+   "label": "正确",
+   "family": "",
+   "score": 76.1,
+   "errors": [
+    "疑似未充分随挥"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 7.0,
+   "errors": [
+    "疑似击球点过高（未低位引拍）",
+    "疑似未跟送（肘部僵硬）"
+   ],
+   "new_hit": true
+  },
+  {
+   "class": "杀球",
+   "label": "正确",
+   "family": "",
+   "score": 30.0,
+   "errors": [
+    "疑似屈肘击球",
+    "疑似击球点偏低"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "吊球",
+   "label": "正确",
+   "family": "",
+   "score": 34.1,
+   "errors": [
+    "疑似击球点偏低",
+    "疑似击球点低于头顶"
+   ],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 62.3,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 95.3,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "搓球",
+   "label": "正确",
+   "family": "",
+   "score": 83.6,
+   "errors": [],
+   "new_hit": false
+  },
+  {
+   "class": "挑球",
+   "label": "正确",
+   "family": "",
+   "score": 84.0,
+   "errors": [],
+   "new_hit": false
+  }
+ ]
+}
