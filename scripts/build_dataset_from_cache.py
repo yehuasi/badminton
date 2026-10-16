@@ -24,7 +24,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from common import REPO_ROOT, save_dataset  # noqa: E402
 from app.classes import SHOT_CLASSES  # noqa: E402
 from app.features import add_kinematics  # noqa: E402
-from prepare_selfcollected import _windows_centered_for_video, _windows_for_video  # noqa: E402
+from prepare_selfcollected import _windows_for_video  # noqa: E402
 
 
 def main():
@@ -39,8 +39,6 @@ def main():
     ap.add_argument("--kinematics", action="store_true", help="追加速度/加速度特征（15→23 维）")
     ap.add_argument("--per-video", type=int, default=0,
                     help="每个视频最多取几个窗口（0=全部，1=只取最强窗口）")
-    ap.add_argument("--center-hit", action="store_true",
-                    help="把窗口平移成“击球帧居中”，与 BFMD 公开数据一致（推荐与 BFMD 混训时开启）")
     ap.add_argument("--manifest", default=None)
     args = ap.parse_args()
 
@@ -65,8 +63,7 @@ def main():
         if args.view and str(z["view"]) != args.view:
             continue
         seq = z["seq"]
-        wins = (_windows_centered_for_video(seq, args.T) if args.center_hit
-                else _windows_for_video(seq, args.T))
+        wins = _windows_for_video(seq, args.T)
         if not wins:
             continue
         if args.per_video:

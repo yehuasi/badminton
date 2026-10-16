@@ -99,6 +99,35 @@ def _resample(seq, target):
     return out
 
 
+def _peak_centered(seq, window):
+    """统一窗口表示：重采样到 T 帧后，把挥速峰值帧平移到正中央（越界用首/末帧补齐）。
+
+    关键决策（2026-10-16）：活动触发式切分只负责判断「什么时候发生了一次挥拍」，
+    切出来的这一段统一成“以击球帧居中”的定长窗口。这样三处表示完全一致：
+    运行时推理、数据准备（训练集构建）、以及以触球帧居中的公开数据（BFMD）。
+    此前训练侧单独做居中、运行时不做，属于训练与推理分布不一致，已废弃。
+    """
+    arr = np.asarray(seq, dtype=np.float32)
+    if arr.shape[0] == 0:
+        return arr
+    base = _resample(arr, window)  # 先保住完整运动轨迹
+    speed = _swing_speed(base)
+    peak = int(np.argmax(speed)) + 1 if speed.size else window // 2
+    half = window // 2
+    shift = peak - half
+    if shift == 0:
+        return base
+    if shift > 0:  # 峰值偏后：去掉开头 shift 帧，尾部用末帧补齐
+        out = base[shift:]
+        pad = window - out.shape[0]
+        if pad > 0:
+            out = np.concatenate([out, np.tile(out[-1], (pad, 1))], axis=0)
+        return out[:window]
+    # 峰值偏前：头部用首帧补齐，末尾相应截掉
+    out = base[:shift] if shift < 0 else base
+    return np.concatenate([np.tile(out[0], (-shift, 1)), out], axis=0)[:window]
+
+
 def _hit_group(seq, hit_idx):
     """依据整段序列“腕相对头顶高度”的峰值判定过顶 / 非过顶。"""
     arr = np.nan_to_num(np.asarray(seq, dtype=np.float64))
@@ -241,18 +270,10 @@ class ShotAnalyzer:
             if self.debug:
                 print(f"[finalize] rejected mean={float(_swing_speed(raw).mean()):.2f}", flush=True)
             return None  # 轻量安全闸：原始帧平均挥速须达标，过滤纯抖动
-        if n > 2 * self.window:
-            # 连续动作导致收集过长：取挥速峰值附近的 T 帧，避免整段压缩进一个窗口
-            speed = _swing_speed(raw)
-            peak = int(np.argmax(speed)) + 1
-            half = self.window // 2
-            lo = max(0, peak - half)
-            hi = min(n, lo + self.window)
-            lo = max(0, hi - self.window)
-            raw = raw[lo:hi]
-            if self.debug:
-                print(f"[finalize] long {n} -> peak-centered {raw.shape[0]}", flush=True)
-        seq = _resample(raw, self.window)
+        # 统一窗口表示：重采样到 T 帧 + 击球帧居中，训练/推理/公开数据一致
+        seq = _peak_centered(raw, self.window)
+        if self.debug:
+            print(f"[finalize] frames={n} -> peak-centered {seq.shape[0]}", flush=True)
         if self.capture:
             self.captured.append(seq)
             return None

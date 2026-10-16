@@ -96,6 +96,9 @@ def main():
     ap.add_argument("--audit", default=os.path.join(REPO_ROOT, "reports", "selfcollected_audit.json"))
     ap.add_argument("--dryrun", default=os.path.join(REPO_ROOT, "reports", "pipeline_dryrun.json"))
     ap.add_argument("--out", default=os.path.join(REPO_ROOT, "reports", "selfcollected_index.csv"))
+    ap.add_argument("--assume-view", default="正侧面",
+                    help="把未标注视角的视频按该视角记入（用户确认：本批未标注的机位均为正侧面；"
+                         "填空字符串则保持未标注）")
     args = ap.parse_args()
 
     audit = json.load(open(args.audit, encoding="utf-8"))
@@ -125,13 +128,18 @@ def main():
         d = dry.get(r["path"], {})
         reason = r["error_reason"]
         family = ERROR_FAMILY.get(reason, "未归族") if reason else ""
+        view = r["view"]
+        assumed = False
+        if view == "未标注" and args.assume_view:
+            view = args.assume_view
+            assumed = True
         notes = []
         if r["path"] in drop:
             notes.append("重复：" + drop[r["path"]])
         if r["frames"] and r["frames"] < 24:
             notes.append(f"帧数不足 24（{r['frames']}），凑不满一个窗口")
-        if r["view"] == "未标注":
-            notes.append("未标注视角")
+        if assumed:
+            notes.append(f"原表未标注视角，按用户确认记为{view}")
         if d.get("windows") == 0:
             notes.append("切分取不到挥拍窗口")
         elif (d.get("windows") or 0) > 1:
@@ -147,7 +155,7 @@ def main():
             "label": r["label"],
             "error_reason": reason,
             "error_family": family,
-            "view": r["view"],
+            "view": view,
             "variant": r["variant"],
             "player": r["player"],
             "frames": r.get("frames", ""),

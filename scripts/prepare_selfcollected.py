@@ -176,7 +176,11 @@ def _window_around(seq, center, T):
 
 
 def _windows_for_video(seq, T):
-    """用与运行时一致的活动触发式切分取窗口；无窗口则退回挥速峰值居中取窗。"""
+    """用与运行时一致的活动触发式切分取窗口；无窗口则退回挥速峰值居中取窗。
+
+    窗口本身由 analyzer 统一成“重采样到 T 帧 + 击球帧居中”，因此这里产出的分布
+    与运行时推理、以及以触球帧居中的公开数据（BFMD）完全一致，不再另做居中处理。
+    """
     analyzer = ShotAnalyzer(classifier=None, window=T, capture=True)
     for t in range(seq.shape[0]):
         analyzer.update_feature(seq[t])
@@ -189,60 +193,6 @@ def _windows_for_video(seq, T):
         if speed.size and float(speed.max()) >= 3.0:
             windows = [fallback]
     return windows
-
-
-def _raw_windows_for_video(seq, T):
-    """同 _windows_for_video，但返回**未重采样**的原始帧窗口（变长）。
-
-    做法是把 analyzer 里的重采样函数临时替换成恒等函数，captured 里存的就是
-    收集到的原始帧，便于再按击球帧重新对齐窗口。
-    """
-    import app.analyzer as _A
-
-    original = _A._resample
-    _A._resample = lambda s, t: s
-    try:
-        analyzer = ShotAnalyzer(classifier=None, window=T, capture=True)
-        for t in range(seq.shape[0]):
-            analyzer.update_feature(seq[t])
-        raw = list(analyzer.captured)
-    finally:
-        _A._resample = original
-    if not raw and seq.shape[0] >= 2:
-        raw = [seq]  # 切不出窗口时退回整段，交给居中取窗处理
-    return raw
-
-
-def _center_on_hit(raw, T):
-    """把窗口平移成“击球帧居中”，与 BFMD 等公开数据的窗口约定对齐。"""
-    raw = np.asarray(raw, dtype=np.float32)
-    if raw.shape[0] == 0:
-        return None
-    speed = _swing_speed(raw)
-    peak = int(np.argmax(speed)) + 1 if speed.size else raw.shape[0] // 2
-    half = T // 2
-    lo, hi = peak - half, peak - half + T
-    if lo < 0:
-        raw = np.concatenate([np.tile(raw[0], (-lo, 1)), raw], axis=0)
-        hi += -lo
-        lo = 0
-    if hi > raw.shape[0]:
-        raw = np.concatenate([raw, np.tile(raw[-1], (hi - raw.shape[0], 1))], axis=0)
-    return raw[lo:hi]
-
-
-def _windows_centered_for_video(seq, T):
-    """切分取窗 + 以击球帧（挥速峰值）居中，返回定长 T 帧窗口列表。"""
-    out = []
-    for w in _raw_windows_for_video(seq, T):
-        c = _center_on_hit(w, T)
-        if c is not None and c.shape[0] == T:
-            out.append(c)
-    if not out and seq.shape[0] >= 2:
-        c = _center_on_hit(seq, T)
-        if c is not None:
-            out = [c]
-    return out
 
 
 def main():
