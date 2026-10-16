@@ -24,7 +24,13 @@ import numpy as np
 from common import REPO_ROOT, save_dataset
 from app.analyzer import ShotAnalyzer, detect_hit_frame, _swing_speed
 from app.classes import SHOT_CLASSES
-from app.features import add_kinematics, compute_features, F
+from app.features import (
+    F,
+    F_FULL,
+    add_kinematics,
+    compute_features,
+    compute_features_full,
+)
 
 VIDEO_EXT = ("mp4", "avi", "mov", "mkv", "MP4", "AVI", "MOV", "MKV")
 
@@ -108,11 +114,13 @@ def _clean_sequence(seq):
     return df.astype(np.float32)
 
 
-def _features_from_video(path, estimator, handedness, decode_width=0, tracker=None):
+def _features_from_video(path, estimator, handedness, decode_width=0, tracker=None,
+                         extended=False):
     cap = cv2.VideoCapture(path)
     if not cap.isOpened():
         return None
     feats = []
+    dim = F_FULL if extended else F
     pick = tracker if tracker is not None else _SubjectPicker(False)
     while True:
         ok, frame = cap.read()
@@ -124,9 +132,11 @@ def _features_from_video(path, estimator, handedness, decode_width=0, tracker=No
                                interpolation=cv2.INTER_AREA)
         person = pick(estimator.predict(frame))
         if person is None:
-            feats.append(np.full(F, np.nan, dtype=np.float32))
+            feats.append(np.full(dim, np.nan, dtype=np.float32))
         else:
-            feats.append(compute_features(person[:17], handedness=handedness))
+            feat = (compute_features_full(person[:17], handedness=handedness) if extended
+                    else compute_features(person[:17], handedness=handedness))
+            feats.append(feat)
     cap.release()
     if not feats:
         return None
@@ -214,6 +224,8 @@ def main():
                         help="读帧后先缩到这个宽度再送姿态模型（0=原始分辨率）")
     parser.add_argument("--no-track", action="store_true",
                         help="关闭跨帧主体跟踪（默认开启，多人同框时锁定同一人）")
+    parser.add_argument("--extended", action="store_true",
+                        help="计算 24 维扩展特征（15 维 + 躯干朝向/转体/拍臂指向/非持拍手等 9 维）")
     parser.add_argument("--out", default=os.path.join(REPO_ROOT, "data", "processed_selfcollected"))
     parser.add_argument("--cache", default=None,
                         help="把每个视频的完整特征序列缓存到该目录（.npz），"
@@ -266,7 +278,8 @@ def main():
         for vid in videos:
             seq = _features_from_video(vid, estimator, args.handedness,
                                        decode_width=args.decode_width,
-                                       tracker=_SubjectPicker(not args.no_track))
+                                       tracker=_SubjectPicker(not args.no_track),
+                                       extended=args.extended)
             if seq is None:
                 print(f"  跳过（无法提取特征）：{os.path.basename(vid)}")
                 continue

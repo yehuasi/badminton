@@ -48,6 +48,23 @@ FEATURE_NAMES = [
 
 F = len(FEATURE_NAMES)
 
+# 扩展特征（第 16~24 维）：针对现有 15 维覆盖不到的教练错误族补的量。
+# 顺序固定，附加在 15 维之后；前 15 维含义不变，因此 analyzer / 评分逻辑可直接复用。
+EXTRA_FEATURE_NAMES = [
+    "shoulder_span",       # 15 双肩水平跨度 / 身高 —— 躯干是否侧对镜头（侧身程度）
+    "hip_span",            # 16 双髋水平跨度 / 身高
+    "shoulder_hip_ratio",  # 17 肩跨度 / 髋跨度 —— 上下身转动是否同步
+    "shoulder_hip_twist",  # 18 肩线与髋线夹角 —— 转体分离度
+    "forearm_angle",       # 19 前臂（肘→腕）与竖直方向夹角 —— 拍臂指向
+    "wrist_x_signed",      # 20 (腕x - 肩中点x) / 身高，带符号：引拍为负、击球为正
+    "elbow_x_signed",      # 21 (肘x - 肩中点x) / 身高 —— 掉肘 / 肘提前到体前
+    "non_dom_wrist_above", # 22 非持拍腕相对肩高 / scale —— 非持拍手是否参与平衡
+    "wrist_head_dist",     # 23 |腕 - 头| / 身高 —— 击球点相对头部的空间位置
+]
+
+FEATURE_NAMES_FULL = FEATURE_NAMES + EXTRA_FEATURE_NAMES
+F_FULL = len(FEATURE_NAMES_FULL)
+
 # 时间导数（速度/加速度）特征的顺序，附加在 15 维静态特征之后。
 # 速度与加速度用于区分“挥拍快慢”（如高远球 vs 吊球），
 # 对挥拍手（持拍腕）在垂直/前伸/过顶三个方向上的运动 + 上臂上抬角做差分。
@@ -75,8 +92,8 @@ def add_kinematics(static_seq):
     （调用方应先做插值清洗，见 scripts/prepare_bfmd.py 的 _clean_sequence）。
     """
     arr = np.asarray(static_seq, dtype=np.float64)
-    if arr.ndim != 2 or arr.shape[1] != F:
-        raise ValueError(f"static_seq 应为 (T, {F})，实际 {arr.shape}")
+    if arr.ndim != 2 or arr.shape[1] < F:
+        raise ValueError(f"static_seq 至少应为 (T, {F})，实际 {arr.shape}")
     vel = np.gradient(arr, axis=0)
     acc = np.gradient(vel, axis=0)
     extra = np.concatenate([vel[:, KINEMATIC_IDX], acc[:, KINEMATIC_IDX]], axis=1)
@@ -155,6 +172,63 @@ def compute_features(kpts, handedness="right"):
     feat[13] = non_dom_arm_raise if non_dom_arm_raise is not None else np.nan
     feat[14] = non_dom_knee if non_dom_knee is not None else np.nan
     return feat
+
+
+def compute_extra_features(kpts, handedness="right"):
+    """扩展特征（9 维）：躯干朝向、转体、拍臂指向、非持拍手与击球点空间关系。
+
+    设计取舍：这些量都用**身高**（肩中点到踝中点）做尺度基准，而不是肩宽——
+    侧身时肩宽本身会缩水，用它做分母会互相抵消、失去判别力。
+    带符号的左右位移对左手持拍做了镜像，保持符号语义一致。
+    """
+    kpts = np.asarray(kpts, dtype=float)
+
+    shoulder_mid = (kpts[LEFT_SHOULDER, :2] + kpts[RIGHT_SHOULDER, :2]) / 2.0
+    hip_mid = (kpts[LEFT_HIP, :2] + kpts[RIGHT_HIP, :2]) / 2.0
+    ankle_mid = (kpts[LEFT_ANKLE, :2] + kpts[RIGHT_ANKLE, :2]) / 2.0
+    height = float(np.linalg.norm(shoulder_mid - ankle_mid))
+    scale = _scale_from(kpts)
+    if handedness == "left":
+        el, wr = LEFT_ELBOW, LEFT_WRIST
+        nsh, nwr = RIGHT_SHOULDER, RIGHT_WRIST
+        mirror = -1.0
+    else:
+        el, wr = RIGHT_ELBOW, RIGHT_WRIST
+        nsh, nwr = LEFT_SHOULDER, LEFT_WRIST
+        mirror = 1.0
+
+    out = np.full((len(EXTRA_FEATURE_NAMES),), np.nan, dtype=np.float32)
+    if height <= 1e-6:
+        return out
+
+    shoulder_span = abs(float(kpts[LEFT_SHOULDER, 0] - kpts[RIGHT_SHOULDER, 0])) / height
+    hip_span = abs(float(kpts[LEFT_HIP, 0] - kpts[RIGHT_HIP, 0])) / height
+    out[0] = shoulder_span
+    out[1] = hip_span
+    out[2] = shoulder_span / hip_span if hip_span > 1e-6 else np.nan
+
+    sh_vec = np.asarray(kpts[RIGHT_SHOULDER, :2]) - np.asarray(kpts[LEFT_SHOULDER, :2])
+    hip_vec = np.asarray(kpts[RIGHT_HIP, :2]) - np.asarray(kpts[LEFT_HIP, :2])
+    n1, n2 = np.linalg.norm(sh_vec), np.linalg.norm(hip_vec)
+    if n1 > 1e-6 and n2 > 1e-6:
+        cos = float(np.clip(abs(np.dot(sh_vec, hip_vec)) / (n1 * n2), -1.0, 1.0))
+        out[3] = float(np.degrees(np.arccos(cos)))
+
+    forearm = _angle_with_vertical(kpts[el], kpts[wr], upward=False)
+    out[4] = forearm if forearm is not None else np.nan
+    out[5] = mirror * float(kpts[wr, 0] - shoulder_mid[0]) / height
+    out[6] = mirror * float(kpts[el, 0] - shoulder_mid[0]) / height
+    out[7] = float((kpts[nsh, 1] - kpts[nwr, 1]) / scale)
+    out[8] = float(np.linalg.norm(np.asarray(kpts[wr, :2]) - np.asarray(kpts[HEAD, :2])) / height)
+    return out
+
+
+def compute_features_full(kpts, handedness="right"):
+    """15 维基础特征 + 9 维扩展特征，共 24 维（模型输入用）。"""
+    return np.concatenate(
+        [compute_features(kpts, handedness=handedness),
+         compute_extra_features(kpts, handedness=handedness)]
+    ).astype(np.float32)
 
 
 def feature_dict(kpts, handedness="right"):

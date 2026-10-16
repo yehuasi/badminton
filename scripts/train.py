@@ -12,6 +12,7 @@ from torch import nn
 
 from common import (
     REPO_ROOT,
+    augment_batch,
     load_dataset,
     load_manifest,
     make_loaders_with_indices,
@@ -44,6 +45,8 @@ def main():
                         help="额外数据集目录（逗号分隔），与 --data 合并训练；类别须一致")
     parser.add_argument("--init", default=None,
                         help="从已有 checkpoint 初始化权重（微调用），例如 models/shot_classifier_bfmd.pt")
+    parser.add_argument("--augment", action="store_true",
+                        help="启用时间抖动+关键点噪声增强（自采小数据集上留出准确率更高）")
     args = parser.parse_args()
 
     torch.manual_seed(args.seed)
@@ -86,6 +89,7 @@ def main():
         class_weights = torch.tensor(len(y) / (len(classes) * counts), dtype=torch.float32)
         print(f"类别权重：{class_weights.tolist()}")
     criterion = nn.CrossEntropyLoss(weight=class_weights)
+    aug_rng = np.random.RandomState(args.seed)
 
     for epoch in range(1, args.epochs + 1):
         t0 = time.time()
@@ -93,6 +97,9 @@ def main():
         train_loss, train_acc, n = 0.0, 0.0, 0
         for xb, yb in train_loader:
             optimizer.zero_grad()
+            if args.augment:
+                xb = torch.from_numpy(
+                    np.nan_to_num(augment_batch(xb.numpy(), aug_rng), nan=0.0))
             logits = model(xb)
             loss = criterion(logits, yb)
             loss.backward()

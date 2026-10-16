@@ -36,11 +36,11 @@ class ShotClassifier(nn.Module):
         return self.head(h[-1])     # (B, num_classes)
 
 
-def save_checkpoint(path, model, config):
+def save_checkpoint(path, model, config, classes=None):
     payload = {
         "state_dict": model.state_dict(),
         "config": config,
-        "classes": SHOT_CLASSES,
+        "classes": list(classes) if classes is not None else SHOT_CLASSES,
     }
     torch.save(payload, path)
 

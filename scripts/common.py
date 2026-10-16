@@ -34,6 +34,27 @@ class SkeletonDataset(Dataset):
         return self.x[i], self.y[i]
 
 
+def augment_batch(xb, rng, noise=0.02, jitter=0.12):
+    """训练增强：时间抖动（模拟快慢挥拍）+ 小幅噪声（模拟关键点抖动）。
+
+    自采数据只有 600 多条，训练准确率能到 100%、留出只有 53%~59%，属于样本量不足。
+    消融实验（reports/regularization_ablation.json）显示，这项增强把留出准确率从
+    57.1% 抬到 58.7%（3 次随机划分平均），是当前最稳的正则化手段。
+    """
+    out = np.empty_like(xb)
+    T = xb.shape[1]
+    for i in range(xb.shape[0]):
+        rate = 1.0 + rng.uniform(-jitter, jitter)
+        src = np.clip(np.arange(T) * rate - (rate - 1.0) * T / 2.0, 0, T - 1)
+        lo = np.floor(src).astype(int)
+        hi = np.clip(lo + 1, 0, T - 1)
+        w = (src - lo)[:, None]
+        out[i] = xb[i][lo] * (1 - w) + xb[i][hi] * w
+    std = out.std(axis=(0, 1), keepdims=True)
+    out = out + rng.normal(0.0, noise, size=out.shape).astype(np.float32) * std
+    return out
+
+
 def save_dataset(directory, x, y, classes, manifest_rows=None):
     os.makedirs(directory, exist_ok=True)
     np.savez_compressed(

@@ -1,0 +1,71 @@
+{
+  "data": "data\\self_ext",
+  "epochs": 100,
+  "results": [
+    {
+      "config": "h96_l2_无增强",
+      "mean_val_acc": 0.5714,
+      "std": 0.04,
+      "runs": [
+        0.6169,
+        0.5195,
+        0.5779
+      ],
+      "hidden": 96,
+      "layers": 2,
+      "augment": false
+    },
+    {
+      "config": "h96_l2_带增强",
+      "mean_val_acc": 0.5866,
+      "std": 0.0341,
+      "runs": [
+        0.6039,
+        0.6169,
+        0.539
+      ],
+      "hidden": 96,
+      "layers": 2,
+      "augment": true
+    },
+    {
+      "config": "h48_l2_带增强",
+      "mean_val_acc": 0.5498,
+      "std": 0.0324,
+      "runs": [
+        0.5844,
+        0.5065,
+        0.5584
+      ],
+      "hidden": 48,
+      "layers": 2,
+      "augment": true
+    },
+    {
+      "config": "h32_l1_带增强",
+      "mean_val_acc": 0.4307,
+      "std": 0.0654,
+      "runs": [
+        0.5195,
+        0.3636,
+        0.4091
+      ],
+      "hidden": 32,
+      "layers": 1,
+      "augment": true
+    },
+    {
+      "config": "h48_l1_无增强",
+      "mean_val_acc": 0.461,
+      "std": 0.014,
+      "runs": [
+        0.4675,
+        0.4416,
+        0.474
+      ],
+      "hidden": 48,
+      "layers": 1,
+      "augment": false
+    }
+  ]
+}
