@@ -19,6 +19,7 @@ __pycache__/
 data/
 models/
 self-build dataset/
+self_filmed/
 
 # 本地运行产物
 replay/
