@@ -75,6 +75,19 @@ def list_cameras():
         print("  没有找到摄像头。请确认摄像头已插入、驱动正常，再用 --list 重试。")
 
 
+def _console_key():
+    """Windows 下读终端按键（不依赖预览窗口焦点）。非 Windows 返回 None。"""
+    if os.name != "nt":
+        return None
+    try:
+        import msvcrt
+    except ImportError:
+        return None
+    if msvcrt.kbhit():
+        return msvcrt.getch()
+    return None
+
+
 def _next_index(cls_dir, cls_name):
     """按既有文件名里的序号算下一个编号，避免覆盖。"""
     max_idx = 0
@@ -141,7 +154,8 @@ def main():
     idx = _next_index(cls_dir, cls_name)
     print(f"保存目录：{cls_dir}")
     print(f"类别：{cls_name}，从编号 {idx:02d} 开始。")
-    print("预览窗口：空格开始录制；D 删除上一条；Q 退出。")
+    print("预览窗口或本终端均可操作：空格开始；D 删除上一条；Q 退出。")
+    cv2.namedWindow("record", cv2.WINDOW_NORMAL)
 
     state = "preview"       # preview / countdown / rec
     countdown_end = 0.0
@@ -188,18 +202,31 @@ def main():
                              f"saved: {idx - 1} clips"])
 
         cv2.imshow("record", frame)
-        key = cv2.waitKey(30) & 0xFF
-        if key in (27, ord("q")):
+        raw = cv2.waitKey(20)
+        win_key = None if raw in (-1, 255) else (raw & 0xFF)
+        console = _console_key()
+
+        quit_req = (win_key in (27, ord("q"), ord("Q")) or console in (b"q", b"Q"))
+        start_req = (win_key in (32, 13) or console in (b" ", b"\r", b"\n"))
+        del_req = (win_key in (ord("d"), ord("D"), 8) or console in (b"d", b"D"))
+
+        if quit_req:
             break
-        if key in (32, 13) and state == "preview":
+        if start_req and state == "preview":
             countdown_end = now + args.countdown
             state = "countdown"
-        if key in (ord("d"), 8) and state == "preview" and last_saved:
+        if del_req and state == "preview" and last_saved:
             p = last_saved.pop()
             if os.path.exists(p):
                 os.remove(p)
                 idx -= 1
                 print(f"已删除上一条：{os.path.basename(p)}")
+        try:
+            if cv2.getWindowProperty("record", cv2.WND_PROP_VISIBLE) < 1:
+                print("窗口已关闭，退出。")
+                break
+        except cv2.error:
+            break
 
     if writer is not None:
         writer.release()
