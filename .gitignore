@@ -31,3 +31,9 @@ configs/
 
 # 挑战杯材料渲染中间产物
 挑战杯/_render/
+
+# 第三方 PPT 模板（大文件，可从 OfficePlus 等重新下载）
+挑战杯/演示*.pptx
+
+# 照片压缩包（photo/ 目录已纳入版本控制）
+挑战杯/photo.zip

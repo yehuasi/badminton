@@ -8,6 +8,7 @@
 
 import os
 import re
+import struct
 
 from docx import Document
 from docx.enum.section import WD_SECTION
@@ -21,8 +22,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(HERE, "作品报告.md")
 OUT = os.path.join(HERE, "作品报告.docx")
 
-TITLE = "基于端侧人工智能的羽毛球动作识别与规范评估系统"
+TITLE = "轻羽智评——端侧人工智能羽毛球动作识别与规范评估系统"
 MEMBERS = "XXXX、XXXX、XXXX、XXXX、XXXX"
+COVER_COMPETITION = "“挑战杯”大学生课外学术科技作品竞赛"
+COVER_TYPE = "项目计划书"
+COVER_CATEGORY = "科技发明制作A类"
 
 F_TITLE = ("华文中宋", 22.0)   # 二号
 F_H1 = ("黑体", 16.0)          # 三号
@@ -31,6 +35,61 @@ F_BODY = ("仿宋", 14.0)        # 四号
 F_TABLE = ("仿宋", 9.0)        # 表格内文（略小于五号，保证不溢出）
 F_MONO = ("Consolas", 9.0)
 F_SMALL = ("仿宋", 10.5)       # 五号
+
+
+def _is_cjk(ch):
+    return "\u4e00" <= ch <= "\u9fff"
+
+
+def _needs_space(a, b):
+    """软换行合并时判断两个字符之间是否需要补空格。"""
+    aw = bool(a) and a.isascii() and a.isalnum()
+    bw = bool(b) and b.isascii() and b.isalnum()
+    if aw and bw:
+        return True
+    if aw and _is_cjk(b):
+        return True
+    if _is_cjk(a) and bw:
+        return True
+    return False
+
+
+def _is_plain(line):
+    s = line.strip()
+    if not s:
+        return False
+    if s.startswith(("```", "#", "|", ">", "!")) or s.startswith("---"):
+        return False
+    if s.startswith("- "):
+        return False
+    if re.match(r"^\d+\.\s", s):
+        return False
+    return True
+
+
+def _reflow(lines):
+    """把 Markdown 的硬换行软行合并为逻辑段落（中文相接不补空格，西文词断处补空格）。"""
+    out = []
+    in_code = False
+    for ln in lines:
+        if ln.strip().startswith("```"):
+            in_code = not in_code
+            out.append(ln)
+            continue
+        if in_code:
+            out.append(ln)
+            continue
+        if _is_plain(ln):
+            cur = ln.strip()
+            if out and _is_plain(out[-1]):
+                prev = out[-1]
+                sep = " " if _needs_space(prev[-1:], cur[:1]) else ""
+                out[-1] = prev + sep + cur
+            else:
+                out.append(cur)
+        else:
+            out.append(ln)
+    return out
 
 
 def _font(run, name, size, bold=False):
@@ -65,15 +124,68 @@ def _single_spacing(par):
 
 
 def _add_field(par, instr, placeholder="1"):
-    run = par.add_run()
-    fld = OxmlElement("w:fldSimple")
-    fld.set(qn("w:instr"), instr)
-    r = OxmlElement("w:r")
+    # 用标准复杂字段（begin/instrText/separate/end），F9 可稳定刷新目录与页码。
+    r1 = par.add_run()
+    b = OxmlElement("w:fldChar")
+    b.set(qn("w:fldCharType"), "begin")
+    b.set(qn("w:dirty"), "true")
+    r1._r.append(b)
+
+    r2 = par.add_run()
+    it = OxmlElement("w:instrText")
+    it.set(qn("xml:space"), "preserve")
+    it.text = " " + instr + " "
+    r2._r.append(it)
+
+    r3 = par.add_run()
+    sep = OxmlElement("w:fldChar")
+    sep.set(qn("w:fldCharType"), "separate")
+    r3._r.append(sep)
+
+    r4 = par.add_run()
     t = OxmlElement("w:t")
     t.text = placeholder
-    r.append(t)
-    fld.append(r)
-    par._p.append(fld)
+    r4._r.append(t)
+
+    r5 = par.add_run()
+    e = OxmlElement("w:fldChar")
+    e.set(qn("w:fldCharType"), "end")
+    r5._r.append(e)
+
+
+def _img_size(path):
+    """读取 PNG/JPEG 像素尺寸，失败返回 None。"""
+    try:
+        if path.lower().endswith(".png"):
+            with open(path, "rb") as f:
+                head = f.read(26)
+            if head[:8] == b"\x89PNG\r\n\x1a\n":
+                return struct.unpack(">II", head[16:24])
+        elif path.lower().endswith((".jpg", ".jpeg")):
+            with open(path, "rb") as f:
+                data = f.read(200000)
+            i, n = 2, len(data)
+            while i < n:
+                if data[i] != 0xFF:
+                    i += 1
+                    continue
+                while i < n and data[i] == 0xFF:
+                    i += 1
+                if i >= n:
+                    break
+                marker = data[i]
+                i += 1
+                if marker in (0xD8, 0x01) or 0xD0 <= marker <= 0xD9:
+                    continue
+                if marker in (0xC0, 0xC1, 0xC2, 0xC3):
+                    h = struct.unpack(">H", data[i + 1:i + 3])[0]
+                    w = struct.unpack(">H", data[i + 3:i + 5])[0]
+                    return w, h
+                seglen = struct.unpack(">H", data[i:i + 2])[0]
+                i += seglen
+    except OSError:
+        pass
+    return None
 
 
 def _add_toc(doc):
@@ -115,6 +227,28 @@ def _table(doc, rows):
     return tbl
 
 
+def _cover_table(doc, rows):
+    """封面信息表：左列标签右对齐、右列内容左对齐，居中放置。"""
+    tbl = doc.add_table(rows=0, cols=2)
+    tbl.style = "Table Grid"
+    tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
+    tbl.autofit = False
+    for label, value in rows:
+        cells = tbl.add_row().cells
+        cells[0].width = Cm(4.2)
+        cells[1].width = Cm(9.6)
+        lp = cells[0].paragraphs[0]
+        lp.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+        _font(lp.add_run(label), "黑体", 14.0)
+        vp = cells[1].paragraphs[0]
+        vp.alignment = WD_ALIGN_PARAGRAPH.LEFT
+        _font(vp.add_run(value), "仿宋", 14.0)
+    for row in tbl.rows:
+        for c in row.cells:
+            c.vertical_alignment = 1
+    return tbl
+
+
 def _heading(doc, text, level):
     """用内置标题样式（供目录域收集），但套用学校要求的黑体字号。"""
     par = doc.add_paragraph(style=("Heading 1", "Heading 2", "Heading 3")[level - 1])
@@ -130,25 +264,54 @@ def _heading(doc, text, level):
     _inline(par, text, name, size, bold=True)
 
 
-CODE_FILES = [
-    ("app/classes.py", "类别与标签定义"),
-    ("app/angles.py", "关节角度计算"),
-    ("app/features.py", "关键点特征提取"),
-    ("app/analyzer.py", "活动触发式切分与序列评分"),
-    ("app/score.py", "单帧标准度与错误规则"),
-    ("app/classifier.py", "GRU 分类器（torch）"),
-    ("app/classifier_onnx.py", "GRU 分类器（onnx）"),
-    ("app/fusion.py", "双视角融合"),
-    ("app/store.py", "回看持久化"),
-    ("app/advice.py", "建议生成"),
-    ("app/server.py", "局域网 Web 服务"),
-    ("app/pose.py", "YOLOv8-Pose 封装（torch）"),
-    ("app/pose_onnx.py", "YOLOv8-Pose 推理（onnx）"),
-    ("app/model.py", "GRU 模型与 checkpoint 读写"),
-    ("scripts/prepare_selfcollected.py", "自采视频入库"),
-    ("scripts/fit_std_ranges.py", "标准库角度区间拟合"),
-    ("scripts/train.py", "识别模型训练脚本"),
+KEY_CODE = [
+    ("app/analyzer.py", "活动触发式切分与序列评分",
+     ["MOTION_FRAME_THRESHOLD", "ONSET_FRAMES", "OFFSET_FRAMES", "SWING_MEAN_THRESHOLD",
+      "detect_hit_frame", "_peak_centered", "_build_result", "ShotAnalyzer"]),
+    ("app/score.py", "单帧标准度与错误规则",
+     ["STD_RANGES", "ERROR_RULES", "score_standardness"]),
+    ("app/features.py", "关键点特征提取",
+     ["FEATURE_NAMES", "EXTRA_FEATURE_NAMES", "compute_features",
+      "compute_extra_features", "compute_features_full"]),
+    ("app/classifier_onnx.py", "GRU 分类器（onnx）",
+     ["ONNXShotClassifier"]),
+    ("app/server.py", "局域网 Web 服务与推理主循环",
+     ["_run_video"]),
 ]
+
+
+def _extract_key(code, keep):
+    """抽取指定顶层 def/class 与常量块（含缩进体与收尾括号）。"""
+    lines = code.split("\n")
+    n = len(lines)
+    out = []
+    i = 0
+    while i < n:
+        line = lines[i]
+        m = re.match(r"^(def|class)\s+([A-Za-z_]\w*)", line)
+        c = re.match(r"^([A-Z_][A-Z0-9_]*)\s*=", line)
+        name = None
+        if m and m.group(2) in keep:
+            name = m.group(2)
+        elif c and c.group(1) in keep:
+            name = c.group(1)
+        if name is None:
+            i += 1
+            continue
+        j = i + 1
+        while j < n:
+            s = lines[j]
+            if not s.strip():
+                j += 1
+                continue
+            if s[0] in (" ", "\t", "}", ")", "]"):
+                j += 1
+                continue
+            break
+        out.extend(lines[i:j])
+        out.append("")
+        i = j
+    return "\n".join(out).rstrip()
 
 
 def _code_run_font(run):
@@ -169,27 +332,30 @@ def _code_run_font(run):
 def _code_appendix(doc):
     repo = os.path.dirname(HERE)
     doc.add_page_break()
-    _heading(doc, "附录 J 关键源码清单", 1)
+    _heading(doc, "附录 J 关键源码片段", 1)
     p = doc.add_paragraph()
     _single_spacing(p)
     _first_line_chars(p, 200)
-    _font(p.add_run("以下列出本作品端侧与服务端的关键源码模块，供评审核验实现。"),
+    _font(p.add_run("以下列出本作品的核心源码片段（完整源码见项目仓库），供评审核验实现。"),
           F_BODY[0], F_BODY[1])
     total = 0
-    for rel, desc in CODE_FILES:
+    for rel, desc, keep in KEY_CODE:
         path = os.path.join(repo, rel.replace("/", os.sep))
         if not os.path.isfile(path):
             continue
         code = open(path, encoding="utf-8").read().rstrip("\n")
-        nlines = code.count("\n") + 1
+        excerpt = _extract_key(code, keep)
+        if not excerpt:
+            continue
+        nlines = excerpt.count("\n") + 1
         total += nlines
-        _heading(doc, "%s（%s，共 %d 行）" % (rel, desc, nlines), 2)
+        _heading(doc, "%s（%s，片段 %d 行）" % (rel, desc, nlines), 2)
         par = doc.add_paragraph()
         _single_spacing(par)
         par.paragraph_format.left_indent = Cm(0.3)
         run = par.add_run()
         _code_run_font(run)
-        for k, ln in enumerate(code.split("\n")):
+        for k, ln in enumerate(excerpt.split("\n")):
             if k:
                 run.add_break()
             run.add_text(ln)
@@ -198,7 +364,7 @@ def _code_appendix(doc):
 
 def build():
     md = open(SRC, encoding="utf-8").read()
-    lines = md.split("\n")
+    lines = _reflow(md.split("\n"))
     doc = Document()
 
     # 页面设置 A4
@@ -207,8 +373,8 @@ def build():
     sec.page_height = Cm(29.7)
     sec.top_margin = Cm(2.54)
     sec.bottom_margin = Cm(2.54)
-    sec.left_margin = Cm(2.5)
-    sec.right_margin = Cm(2.5)
+    sec.left_margin = Cm(3.18)
+    sec.right_margin = Cm(3.18)
 
     # 默认样式
     normal = doc.styles["Normal"]
@@ -216,15 +382,21 @@ def build():
     normal.font.size = Pt(F_BODY[1])
     normal.element.rPr.rFonts.set(qn("w:eastAsia"), F_BODY[0])
 
-    # ---- 封面 ----
-    for _ in range(4):
+    # ---- 封面（参照校赛封面样式）----
+    for _ in range(2):
         doc.add_paragraph()
     p = doc.add_paragraph(); p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    _font(p.add_run(TITLE), F_TITLE[0], F_TITLE[1])
-    for _ in range(3):
-        doc.add_paragraph()
+    _font(p.add_run(COVER_COMPETITION), "黑体", 24.0)
     p = doc.add_paragraph(); p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    _font(p.add_run("完成成员：" + MEMBERS), F_BODY[0], F_BODY[1])
+    _font(p.add_run(COVER_TYPE), "黑体", 24.0)
+    for _ in range(2):
+        doc.add_paragraph()
+    _cover_table(doc, [
+        ("参赛组别：", COVER_CATEGORY),
+        ("项目名称：", TITLE),
+        ("项目负责人：", "XXXX"),
+        ("项目成员：", MEMBERS),
+    ])
     doc.add_page_break()
 
     # ---- 目录 ----
@@ -239,8 +411,8 @@ def build():
     new_sec.page_height = Cm(29.7)
     new_sec.top_margin = Cm(2.54)
     new_sec.bottom_margin = Cm(2.54)
-    new_sec.left_margin = Cm(2.5)
-    new_sec.right_margin = Cm(2.5)
+    new_sec.left_margin = Cm(3.18)
+    new_sec.right_margin = Cm(3.18)
     new_sec.header.is_linked_to_previous = False
     new_sec.footer.is_linked_to_previous = False
     pg = OxmlElement("w:pgNumType")
@@ -294,7 +466,14 @@ def build():
                 p = doc.add_paragraph()
                 p.alignment = WD_ALIGN_PARAGRAPH.CENTER
                 p.paragraph_format.space_before = Pt(6)
-                p.add_run().add_picture(img, width=Cm(13.5))
+                size = _img_size(img) or (16, 9)
+                aspect = size[1] / float(size[0])
+                width = Cm(13.5)
+                height = int(width * aspect)
+                if height > Cm(15.0):
+                    height = Cm(15.0)
+                    width = int(height / aspect)
+                p.add_run().add_picture(img, width=width)
                 cp = doc.add_paragraph()
                 cp.alignment = WD_ALIGN_PARAGRAPH.CENTER
                 _single_spacing(cp)
