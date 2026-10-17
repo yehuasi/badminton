@@ -16,8 +16,10 @@ from common import (
     load_dataset,
     load_manifest,
     make_loaders_with_indices,
+    SkeletonDataset,
 )
 from app.model import ShotClassifier, save_checkpoint
+from torch.utils.data import DataLoader
 
 
 def accuracy(logits, y):
@@ -35,6 +37,8 @@ def main():
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--split-by-match", action="store_true",
                         help="按来源比赛划分验证集，避免同场数据泄漏")
+    parser.add_argument("--val-frac", type=float, default=0.25,
+                        help="验证集比例；设为 0 时用全部样本训练（部署用最终模型）")
     parser.add_argument("--class-weight", action="store_true",
                         help="用逆频率类别权重缓解类别不均衡")
     parser.add_argument("--kinematics", action="store_true",
@@ -69,10 +73,17 @@ def main():
             print(f"已合并 {extra_dir}：+{xe.shape[0]} 个样本 -> 共 {x.shape[0]}")
 
     manifest = load_manifest(data_dir) if args.split_by_match else None
-    train_loader, val_loader = make_loaders_with_indices(
-        x, y, batch_size=args.batch_size, val_frac=0.25, seed=args.seed,
-        manifest=manifest, split_by_match=args.split_by_match,
-    )
+    if args.val_frac > 0:
+        train_loader, val_loader = make_loaders_with_indices(
+            x, y, batch_size=args.batch_size, val_frac=args.val_frac, seed=args.seed,
+            manifest=manifest, split_by_match=args.split_by_match,
+        )
+    else:
+        train_loader = DataLoader(
+            SkeletonDataset(x, y), batch_size=args.batch_size, shuffle=True
+        )
+        val_loader = None
+        print("验证集比例为 0：用全部样本训练（无验证指标）")
 
     model = ShotClassifier(in_dim=x.shape[2], hidden=args.hidden, layers=args.layers,
                            num_classes=len(classes))
@@ -109,21 +120,27 @@ def main():
             n += len(yb)
         scheduler.step()
 
-        model.eval()
-        val_loss, val_acc, nv = 0.0, 0.0, 0
-        with torch.no_grad():
-            for xb, yb in val_loader:
-                logits = model(xb)
-                val_loss += criterion(logits, yb).item() * len(yb)
-                val_acc += accuracy(logits, yb) * len(yb)
-                nv += len(yb)
-
-        print(
-            f"epoch {epoch:3d}/{args.epochs}  "
-            f"train_loss={train_loss/n:.3f} train_acc={train_acc/n:.3f}  "
-            f"val_loss={val_loss/nv:.3f} val_acc={val_acc/nv:.3f}  "
-            f"({time.time()-t0:.1f}s)"
-        )
+        if val_loader is not None:
+            model.eval()
+            val_loss, val_acc, nv = 0.0, 0.0, 0
+            with torch.no_grad():
+                for xb, yb in val_loader:
+                    logits = model(xb)
+                    val_loss += criterion(logits, yb).item() * len(yb)
+                    val_acc += accuracy(logits, yb) * len(yb)
+                    nv += len(yb)
+            print(
+                f"epoch {epoch:3d}/{args.epochs}  "
+                f"train_loss={train_loss/n:.3f} train_acc={train_acc/n:.3f}  "
+                f"val_loss={val_loss/nv:.3f} val_acc={val_acc/nv:.3f}  "
+                f"({time.time()-t0:.1f}s)"
+            )
+        else:
+            print(
+                f"epoch {epoch:3d}/{args.epochs}  "
+                f"train_loss={train_loss/n:.3f} train_acc={train_acc/n:.3f}  "
+                f"({time.time()-t0:.1f}s)"
+            )
 
     config = {
         "in_dim": x.shape[2],

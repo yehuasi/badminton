@@ -20,6 +20,7 @@ data/
 models/
 self-build dataset/
 self_filmed/
+self_filmed_old_0.9s/
 
 # 本地运行产物
 replay/

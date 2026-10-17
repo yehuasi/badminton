@@ -23,6 +23,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from common import REPO_ROOT, save_dataset  # noqa: E402
 from app.classes import SHOT_CLASSES  # noqa: E402
+from app.analyzer import _swing_speed  # noqa: E402
 from app.features import add_kinematics  # noqa: E402
 from prepare_selfcollected import _windows_for_video  # noqa: E402
 
@@ -38,7 +39,7 @@ def main():
     ap.add_argument("--T", type=int, default=24)
     ap.add_argument("--kinematics", action="store_true", help="追加速度/加速度特征（15→23 维）")
     ap.add_argument("--per-video", type=int, default=0,
-                    help="每个视频最多取几个窗口（0=全部，1=只取最强窗口）")
+                    help="每个视频最多取几个窗口（0=全部，1=只取挥速峰值最强的一个窗口）")
     ap.add_argument("--manifest", default=None)
     args = ap.parse_args()
 
@@ -67,7 +68,13 @@ def main():
         if not wins:
             continue
         if args.per_video:
-            wins = wins[: args.per_video]
+            if args.per_video == 1:
+                # 一条一个动作的短录像，活动触发切分可能把“准备/起步”也切成一段，
+                # 取挥速峰值最强的窗口（真正击球那一拍），避免低运动量片段变成标签噪声。
+                best = max(range(len(wins)), key=lambda i: float(_swing_speed(wins[i]).max()))
+                wins = [wins[best]]
+            else:
+                wins = wins[: args.per_video]
         used[cls] = used.get(cls, 0) + 1
         for k, w in enumerate(wins):
             if args.kinematics:

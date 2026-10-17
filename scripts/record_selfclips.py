@@ -10,6 +10,10 @@
     D / 退格     删除上一条（拍坏了就删掉重拍）
     Q / Esc      退出
 
+说明：Windows 下打开 720p 摄像头时默认可能走 YUY2 格式（只有 5~10fps），本脚本会
+显式切换 MJPG 争取 30fps，并实测真实帧率写入视频，避免“录了 4 秒、视频却加速”的
+帧率不匹配问题。保存每条时会打印实际帧数与时长，低于 15fps 会提示降低分辨率。
+
 用法：
     .venv\\Scripts\\python scripts\\record_selfclips.py --camera 1
     .venv\\Scripts\\python scripts\\record_selfclips.py --class 高远球 --camera 1
@@ -50,10 +54,28 @@ def _open_camera(index, width, height):
         cap = cv2.VideoCapture(index, cv2.CAP_DSHOW)
     else:
         cap = cv2.VideoCapture(index)
-    if cap.isOpened() and width and height:
-        cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
-        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
+    if cap.isOpened():
+        # 先切 MJPG 再设分辨率：Windows 的 DSHOW 在 YUY2 下 720p 只有约 5~10fps，
+        # MJPG 才能到 30fps，否则按自报 30fps 写视频会出现“实际录 4 秒、播放却加速”。
+        if os.name == "nt":
+            cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*"MJPG"))
+        if width and height:
+            cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
+            cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
     return cap
+
+
+def _measure_fps(cap, seconds=2.0):
+    """实测真实帧率：读 seconds 秒的帧并计数，不信任摄像头自报的 fps。"""
+    t0 = time.time()
+    n = 0
+    while time.time() - t0 < seconds:
+        ok, _ = cap.read()
+        if not ok:
+            break
+        n += 1
+    elapsed = time.time() - t0
+    return n / elapsed if elapsed > 0 else 0.0
 
 
 def list_cameras():
@@ -131,10 +153,16 @@ def main():
 
     w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-    fps = cap.get(cv2.CAP_PROP_FPS)
-    if fps <= 0 or fps > 120:
+    reported_fps = cap.get(cv2.CAP_PROP_FPS)
+    print(f"摄像头已打开：{w}x{h}，自报 {reported_fps:.0f}fps，实测中…")
+    fps = _measure_fps(cap)
+    if fps <= 0:
         fps = 30.0
-    print(f"摄像头已打开：{w}x{h} @ {fps:.0f}fps，每条录制 {args.duration:.0f} 秒")
+    print(f"实测帧率：{fps:.1f}fps（写入视频用这个值，避免加速/减速）")
+    if fps < 15.0:
+        print(f"⚠ 实测帧率偏低（{fps:.1f}fps），建议降低分辨率再拍：")
+        print("   .venv\\Scripts\\python scripts\\record_selfclips.py --width 640 --height 480")
+    print(f"每条录制 {args.duration:.0f} 秒")
 
     cls_name = args.cls.strip()
     if cls_name and cls_name not in SHOT_CLASSES:
@@ -162,6 +190,7 @@ def main():
     rec_end = 0.0
     writer = None
     last_saved = []
+    rec_frames = 0
 
     while True:
         ok, frame = cap.read()
@@ -183,17 +212,21 @@ def main():
                     print("写文件失败，退出。")
                     break
                 rec_end = now + args.duration
+                rec_frames = 0
                 state = "rec"
         elif state == "rec":
             left = max(0, rec_end - now)
             _overlay(frame, [f"{CLASS_LABEL.get(cls_name, 'shot')}  #{idx:02d}",
                              f"REC {left:.1f}s", ""])
             writer.write(frame)
+            rec_frames += 1
             if now >= rec_end:
                 writer.release()
                 writer = None
                 last_saved.append(os.path.join(cls_dir, f"{cls_name}_{idx:02d}.mp4"))
-                print(f"已保存 {cls_name}_{idx:02d}.mp4（本类累计 {idx} 条）")
+                real_dur = rec_frames / fps if fps > 0 else 0.0
+                print(f"已保存 {cls_name}_{idx:02d}.mp4：{rec_frames} 帧 ≈ {real_dur:.1f}s"
+                      f"（本类累计 {idx} 条）")
                 idx += 1
                 state = "preview"
         else:
